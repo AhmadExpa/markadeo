@@ -1,41 +1,88 @@
+/* ------------------------------------------------------------------
+   AestheticLogo — Markadeo's brand mark.
+   A refined gold-gradient "M" monogram set in a softly lit dark badge,
+   paired with a clean wordmark. No gimmicks — just a confident,
+   premium identity that holds up at any size.
+------------------------------------------------------------------ */
+
 export function AestheticLogoIcon({ className = "w-10 h-10" }: { className?: string }) {
   return (
-    <div className={`relative flex-shrink-0 transition-transform duration-300 ${className}`}>
-      {/* Sharp bordered frame */}
-      <div className="w-full h-full border border-white/20 bg-[#0E0E0E] flex items-center justify-center p-1.5 relative overflow-hidden">
-        {/* Reticle focus corner ticks */}
-        <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-brand-gold"></div>
-        <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-brand-gold"></div>
-        <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-brand-gold"></div>
-        <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-brand-gold"></div>
+    <div className={`relative flex-shrink-0 ${className}`}>
+      {/* Soft gold halo for a premium, lit-from-within feel */}
+      <div
+        className="absolute -inset-1 rounded-[30%] bg-brand-gold/25 blur-md opacity-50"
+        aria-hidden
+      />
 
-        {/* Monoline "M" mark — Markadeo */}
-        <svg viewBox="0 0 24 24" className="w-full h-full text-white" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M4 19 V5.5 L12 13 L20 5.5 V19" />
-          {/* Gold accent node at the top-right terminal */}
-          <circle cx="20" cy="5.5" r="1.9" fill="#F5B82E" stroke="none" />
-        </svg>
-      </div>
-      {/* Live pulsing state dot indicator */}
-      <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 bg-[#0A0A0A] border border-white/10 flex items-center justify-center">
-        <span className="w-1 h-1 bg-brand-gold animate-pulse"></span>
-      </span>
+      <svg
+        viewBox="0 0 48 48"
+        className="relative w-full h-full"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="Markadeo"
+      >
+        <defs>
+          {/* Warm-to-deep gold for the monogram */}
+          <linearGradient id="mk-gold" x1="12" y1="11" x2="36" y2="39" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#FFE6A6" />
+            <stop offset="0.45" stopColor="#F5B82E" />
+            <stop offset="1" stopColor="#B87C12" />
+          </linearGradient>
+          {/* Subtle top-lit dark badge */}
+          <linearGradient id="mk-bg" x1="24" y1="1" x2="24" y2="47" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#1E1E1E" />
+            <stop offset="1" stopColor="#070707" />
+          </linearGradient>
+          {/* Gold-kissed hairline border */}
+          <linearGradient id="mk-border" x1="2" y1="2" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#F5B82E" stopOpacity="0.75" />
+            <stop offset="0.5" stopColor="#FFFFFF" stopOpacity="0.10" />
+            <stop offset="1" stopColor="#F5B82E" stopOpacity="0.45" />
+          </linearGradient>
+        </defs>
+
+        {/* Badge */}
+        <rect
+          x="1.5"
+          y="1.5"
+          width="45"
+          height="45"
+          rx="13"
+          fill="url(#mk-bg)"
+          stroke="url(#mk-border)"
+          strokeWidth="1.5"
+        />
+        {/* Glass top highlight */}
+        <rect x="5" y="4.5" width="38" height="18" rx="9" fill="#FFFFFF" opacity="0.04" />
+
+        {/* Monogram "M" */}
+        <path
+          d="M14.5 33.5 V15.5 L24 26 L33.5 15.5 V33.5"
+          stroke="url(#mk-gold)"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* Gold node where the strokes meet — the brand spark */}
+        <circle cx="24" cy="26" r="1.7" fill="#FFE6A6" />
+      </svg>
     </div>
   );
 }
 
 export function AestheticLogoProduct() {
   return (
-    <div className="flex items-center gap-2 sm:gap-3 group">
-      <AestheticLogoIcon className="w-8 h-8 sm:w-10 sm:h-10 group-hover:scale-105" />
-      <div className="flex flex-col text-left">
-        <span className="font-display font-black text-lg sm:text-2xl tracking-tighter uppercase text-white group-hover:text-brand-gold transition-colors leading-none mb-0.5">
-          Marka<span className="text-brand-gold">deo</span>
+    <div className="flex items-center gap-2.5 sm:gap-3 group">
+      <AestheticLogoIcon className="w-9 h-9 sm:w-11 sm:h-11 transition-transform duration-300 group-hover:scale-[1.04]" />
+      <div className="flex flex-col text-left leading-none">
+        <span className="font-display font-black text-lg sm:text-2xl tracking-tight uppercase text-white leading-none">
+          Marka<span className="gold-gradient-text">deo</span>
         </span>
-        <span className="text-[7px] sm:text-[8px] font-mono tracking-widest text-zinc-500 uppercase flex items-center gap-1 font-bold leading-normal">
-          <span className="inline-block w-1 h-1 bg-emerald-500 flex-shrink-0"></span>
-          <span className="hidden sm:inline">SOCIAL & LOCAL SEARCH // UK</span>
-          <span className="sm:hidden">SOCIAL & SEARCH // UK</span>
+        <span className="mt-1.5 text-[7px] sm:text-[8.5px] font-mono tracking-[0.3em] text-zinc-500 uppercase leading-none">
+          Social &amp; Local Search
+          <span className="text-brand-gold"> · </span>
+          UK
         </span>
       </div>
     </div>

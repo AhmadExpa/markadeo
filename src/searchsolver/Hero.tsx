@@ -169,9 +169,12 @@ export default function Hero({ onOpenConsole }: { onOpenConsole: (tab: 'calculat
               <div className="relative overflow-hidden border border-white/10 shadow-2xl shadow-black/60 aspect-[4/5] sm:aspect-square lg:aspect-[4/5]">
                 <motion.img
                   style={{ scale: imageScale, y: imageY }}
-                  src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=85"
+                  src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=80"
+                  srcSet="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=600&q=70 600w, https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=80 900w, https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=85 1200w"
+                  sizes="(max-width: 1023px) 92vw, 40vw"
                   alt="A beautifully plated, dramatically lit gourmet dish — the kind of content Markadeo creates and posts daily for UK restaurants."
                   loading="eager"
+                  fetchPriority="high"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover object-center will-change-transform"
                 />

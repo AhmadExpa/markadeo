@@ -1,6 +1,27 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react';
 import { ScanSearch, Clapperboard, Radar, CalendarCheck, ArrowRight } from 'lucide-react';
+
+/* Pin-scroll is a desktop-only delight. On touch / small screens it feels
+   broken (hijacked scroll, heavy paint), so we serve a clean vertical
+   stack instead. Initialised eagerly to avoid a layout flash on mobile. */
+function useStackedLayout() {
+  const reduced = useReducedMotion();
+  const query = '(max-width: 1023px), (pointer: coarse)';
+  const [small, setSmall] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(query).matches,
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const update = () => setSmall(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  return reduced || small;
+}
 
 /* ------------------------------------------------------------------
    ProcessShowcase — the signature scroll hook.
@@ -52,12 +73,32 @@ const phases = [
   },
 ];
 
-function PhaseCard({ phase, index }: { phase: (typeof phases)[number]; index: number }) {
+function PhaseCard({
+  phase,
+  index,
+  variant = 'pinned',
+}: {
+  phase: (typeof phases)[number];
+  index: number;
+  variant?: 'pinned' | 'stacked';
+}) {
   const Icon = phase.icon;
+
+  /* Pinned: each panel is a full viewport in the horizontal track.
+     Stacked: a self-contained card in a vertical list (mobile). */
+  const shell =
+    variant === 'pinned'
+      ? 'w-screen h-screen flex items-center px-6 sm:px-12 lg:px-24'
+      : 'relative overflow-hidden flex items-center min-h-[78svh] px-6 py-16 border-b border-white/5 bg-gradient-to-b from-white/[0.015] to-transparent';
+
   return (
-    <div className="relative w-screen h-screen flex items-center px-6 sm:px-12 lg:px-24">
+    <div className={`relative ${shell}`}>
       {/* Giant ghost number in the background */}
-      <span className="pointer-events-none select-none absolute right-4 sm:right-12 top-1/2 -translate-y-1/2 font-display font-black text-[40vw] sm:text-[28vw] leading-none text-white/[0.03]">
+      <span
+        className={`pointer-events-none select-none absolute right-4 sm:right-12 top-1/2 -translate-y-1/2 font-display font-black leading-none text-white/[0.03] ${
+          variant === 'pinned' ? 'text-[40vw] sm:text-[28vw]' : 'text-[34vw]'
+        }`}
+      >
         {phase.no}
       </span>
 
@@ -111,7 +152,7 @@ function PhaseCard({ phase, index }: { phase: (typeof phases)[number]; index: nu
 }
 
 export default function ProcessShowcase() {
-  const reduced = useReducedMotion();
+  const stacked = useStackedLayout();
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -123,11 +164,11 @@ export default function ProcessShowcase() {
   const x = useTransform(scrollYProgress, [0, 1], ['0%', '-75%']);
   const barScale = useTransform(scrollYProgress, [0, 1], [0.25, 1]);
 
-  /* ---- Reduced-motion / no-pin fallback: vertical stack ---- */
-  if (reduced) {
+  /* ---- Mobile / touch / reduced-motion: clean vertical stack ---- */
+  if (stacked) {
     return (
-      <section id="growth-engine" className="relative bg-[#070707] border-y border-white/5 py-20">
-        <div className="max-w-3xl mx-auto px-6 text-center mb-12">
+      <section id="growth-engine" className="relative bg-[#070707] border-y border-white/5 pt-16 pb-4">
+        <div className="max-w-3xl mx-auto px-6 text-center mb-4">
           <span className="text-[11px] font-mono tracking-widest text-brand-gold uppercase px-3.5 py-1.5 bg-brand-gold/10 border border-brand-gold/30 inline-block mb-4 font-bold">
             THE GROWTH ENGINE
           </span>
@@ -135,9 +176,9 @@ export default function ProcessShowcase() {
             Four phases. <span className="gold-gradient-text">One full restaurant.</span>
           </h2>
         </div>
-        <div className="space-y-4">
+        <div>
           {phases.map((p, i) => (
-            <PhaseCard key={p.key} phase={p} index={i} />
+            <PhaseCard key={p.key} phase={p} index={i} variant="stacked" />
           ))}
         </div>
       </section>

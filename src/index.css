@@ -207,6 +207,41 @@ body {
 }
 
 /* ============================================================
+   MOBILE PERFORMANCE — strip the paint-heavy effects that cause
+   scroll jank on phones. These layers look great on a desktop GPU
+   but repaint the whole viewport every frame on mobile.
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Fixed background attachment forces a full repaint on every
+     scroll frame on mobile — the single biggest cause of jank. */
+  body {
+    background-attachment: scroll;
+  }
+
+  /* The film grain uses mix-blend-mode on a fixed full-screen layer,
+     which is expensive to recomposite while scrolling. */
+  .grain-overlay {
+    display: none;
+  }
+
+  /* Continuously animating large blurred blobs are GPU-bound on
+     phones — keep the glow, drop the motion. */
+  .mesh-drift {
+    animation: none !important;
+  }
+}
+
+/* Momentum scrolling + no horizontal rubber-banding on touch */
+@media (pointer: coarse) {
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
+  body {
+    overscroll-behavior-x: none;
+  }
+}
+
+/* ============================================================
    ACCESSIBILITY — respect reduced motion
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {

@@ -23,8 +23,12 @@ export default function ParticleField({ className = '' }: { className?: string }
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Skip the canvas entirely on touch / small screens: it has no touch
+    // interaction and the O(n²) link pass per frame is pure jank + battery
+    // drain on phones.
+    const coarse = window.matchMedia('(pointer: coarse), (max-width: 768px)').matches;
     const canvas = canvasRef.current;
-    if (!canvas || reduced) return;
+    if (!canvas || reduced || coarse) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
