@@ -24,34 +24,66 @@ const proofPoints = [
 ------------------------------------------------------------------ */
 export default function Testimonials() {
   return (
-    <section id="proof" className="py-16 sm:py-24 bg-brand-gold-wash/50 border-y border-brand-gold/20 scroll-mt-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center mb-10">
-          <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">
+    <section id="proof" className="relative overflow-hidden bg-ink py-20 sm:py-28 text-white scroll-mt-24">
+      <div className="absolute inset-y-0 left-0 hidden w-px bg-white/10 lg:block" aria-hidden />
+      <div className="absolute inset-y-0 right-[18%] hidden w-px bg-white/10 lg:block" aria-hidden />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <Reveal direction="right">
+          <p className="text-sm font-semibold text-brand-gold uppercase tracking-[0.18em]">
             Built for momentum
           </p>
-          <h2 className="mt-2 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink">
-            AI-driven production, planning and delivery.
+          <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-normal leading-tight">
+            AI-driven production, planning and delivery with a live creative rhythm.
           </h2>
+          <p className="mt-5 max-w-xl text-zinc-300 leading-relaxed">
+            Clear signals, visible momentum and the practical things a client needs to trust before the
+            first campaign goes live.
+          </p>
+
+          <div className="mt-10 divide-y divide-white/10 border-y border-white/10">
+            {proofPoints.map((point, i) => {
+              const Icon = point.icon;
+              return (
+                <Reveal key={point.title}>
+                  <article className="group grid gap-4 py-6 sm:grid-cols-[3.5rem_1fr]">
+                    <span className="flex h-11 w-11 items-center justify-center bg-white text-ink transition-colors group-hover:bg-brand-gold">
+                      <Icon className="w-5 h-5" />
+                    </span>
+                    <div>
+                      <div className="flex items-baseline gap-3">
+                        <span className="font-mono text-xs text-brand-gold">0{i + 1}</span>
+                        <h3 className="font-display font-bold text-xl tracking-normal">{point.title}</h3>
+                      </div>
+                      <p className="mt-2 text-sm text-zinc-300 leading-relaxed">{point.body}</p>
+                    </div>
+                  </article>
+                </Reveal>
+              );
+            })}
+          </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-          {proofPoints.map((point) => {
-            const Icon = point.icon;
-            return (
-              <Reveal key={point.title} className="h-full">
-                <article className="relative h-full overflow-hidden rounded-[1.5rem] bg-white border border-brand-gold/20 p-6 shadow-soft-lg lift">
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-gold via-brand-gold-soft to-brand-gold-hover" />
-                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-ink text-brand-gold shadow-[0_10px_25px_-18px_rgba(11,11,12,0.8)]">
-                    <Icon className="w-6 h-6" />
-                  </span>
-                  <h3 className="mt-5 font-display font-bold text-lg text-ink">{point.title}</h3>
-                  <p className="mt-2 text-sm text-zinc-600 leading-relaxed">{point.body}</p>
-                </article>
-              </Reveal>
-            );
-          })}
-        </div>
+        <Reveal direction="left" className="relative min-h-[460px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
+            alt="A team planning creative production work."
+            loading="eager"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/76 via-ink/20 to-ink/10" />
+          <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+            <div className="flex h-28 items-end gap-2">
+              {[34, 48, 58, 76, 88, 100].map((height) => (
+                <span key={height} className="w-full bg-brand-gold" style={{ height: `${height}%` }} />
+              ))}
+            </div>
+            <p className="mt-5 max-w-sm font-display text-2xl font-bold leading-tight">
+              Faster planning only matters when the final output still feels crafted.
+            </p>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

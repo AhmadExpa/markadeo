@@ -16,7 +16,7 @@ import {
   MessageSquare,
   Target,
 } from 'lucide-react';
-import VideoHero from '../VideoHero';
+import CreativeHero from '../CreativeHero';
 import ServiceSlider from '../ServiceSlider';
 import Pricing from '../Pricing';
 import Testimonials from '../Testimonials';
@@ -53,42 +53,57 @@ const socialFixes = [
   'Report what is working in plain English, then adjust the next batch.',
 ];
 
-const energyTiles = [
+const creativeDirections = [
   {
     no: '01',
     icon: MessageCircle,
-    title: 'Conversation',
-    body: 'Copy and replies that sound human, not canned.',
+    title: 'Human conversation',
+    body: 'Captions, replies and hooks that sound like a real brand, not a template.',
   },
   {
     no: '02',
     icon: TrendingUp,
-    title: 'Growth',
-    body: 'Cleaner signals, sharper feedback and more momentum.',
+    title: 'Sharper signal',
+    body: 'We read the account, the audience and the platform before the next post goes out.',
   },
   {
     no: '03',
     icon: Play,
-    title: 'Video',
-    body: 'Short-form edits that keep attention moving.',
+    title: 'Short-form rhythm',
+    body: 'Edits, cuts and content series built for feeds that move quickly.',
   },
   {
     no: '04',
     icon: Wand2,
-    title: 'Craft',
-    body: 'Tighter visuals, motion and production polish.',
+    title: 'Visual craft',
+    body: 'Sharper art direction, production polish and design consistency across every asset.',
   },
   {
     no: '05',
     icon: Megaphone,
-    title: 'Broadcast',
-    body: 'Campaign-ready assets and launch pacing.',
+    title: 'Launch pacing',
+    body: 'Campaign-ready assets, posting rhythm and optional ad planning laid out before launch.',
   },
   {
     no: '06',
     icon: Target,
-    title: 'Reach',
-    body: 'Built to land in the places your audience already looks.',
+    title: 'Platform fit',
+    body: 'Built to land where the audience already looks: social feeds, search, shorts and stories.',
+  },
+];
+
+const momentumImages = [
+  {
+    src: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=80',
+    alt: 'A cinematic production camera on set.',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=900&q=80',
+    alt: 'A phone showing social content.',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=900&q=80',
+    alt: 'Brand identity work laid out on a table.',
   },
 ];
 
@@ -96,12 +111,10 @@ export default function Home() {
   return (
     <>
       {/* ============ HERO ============ */}
-      <VideoHero
-        videoSrc={MEDIA.heroVideo}
-        poster={MEDIA.heroPoster}
+      <CreativeHero
         eyebrow="Creative content house"
-        title={<>We make brands<br /> impossible to scroll past.</>}
-        subtitle="Content, 3D, social, branding and build — under one roof. We get you established on the platforms so you reach a real audience and real visits, for a fraction of what marketplaces charge to sell for you."
+        title={<>Markadeo makes brands impossible to scroll past.</>}
+        subtitle="Content, 3D, social, branding and web builds under one roof. We turn quiet channels into a living brand system with stronger visuals, clearer rhythm and content people actually want to watch."
       >
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <Magnetic>
@@ -126,46 +139,100 @@ export default function Home() {
             See our work
           </Link>
         </div>
-      </VideoHero>
+      </CreativeHero>
 
-      {/* ============ ENERGY GRID ============ */}
-      <section className="py-16 sm:py-20 bg-brand-gold-wash/70 border-y border-brand-gold/20 scroll-mt-24">
+      {/* ============ SCROLL STORY ============ */}
+      <section className="relative overflow-hidden bg-white py-20 sm:py-28 scroll-mt-24">
+        <div className="absolute inset-x-0 top-0 h-px bg-line" aria-hidden />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-line" aria-hidden />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-10">
-            <div className="max-w-2xl">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+            <Reveal direction="right" className="lg:sticky lg:top-28 lg:self-start">
               <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">
                 Six directions
               </p>
-              <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink leading-tight">
-                A brighter way to move the feed.
+              <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-normal text-ink leading-none">
+                Make the feed feel alive before anyone reads a caption.
               </h2>
-            </div>
-            <p className="max-w-xl text-zinc-600 leading-relaxed">
-              Borrowing the energy from the mock: stronger contrast, cleaner blocks and a faster visual rhythm
-              so the page feels more alive on first glance.
-            </p>
-          </Reveal>
+              <p className="mt-6 max-w-xl text-zinc-600 leading-relaxed">
+                From the first hook to the final publish, every asset should feel connected: visual
+                direction, captions, platform fit and the next action.
+              </p>
+              <div className="mt-8 flex items-center gap-4 border-y border-line py-5">
+                <span className="font-display text-5xl font-black text-ink">06</span>
+                <span className="max-w-xs text-sm font-medium uppercase tracking-[0.18em] text-zinc-500">
+                  connected creative moves, one content engine
+                </span>
+              </div>
+            </Reveal>
 
-          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {energyTiles.map((tile) => {
-              const Icon = tile.icon;
-              return (
-                <RevealItem key={tile.title} className="h-full">
-                  <article className="relative h-full overflow-hidden rounded-[1.5rem] bg-white border border-brand-gold/20 p-6 shadow-soft-lg lift">
-                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-gold via-brand-gold-soft to-brand-gold-hover" />
-                    <div className="flex items-start justify-between gap-4">
-                      <span className="text-xs font-semibold tracking-[0.24em] text-brand-gold-hover">{tile.no}</span>
-                      <span className="w-11 h-11 rounded-xl bg-ink text-brand-gold flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-5 h-5" />
-                      </span>
-                    </div>
-                    <h3 className="mt-6 font-display font-bold text-xl text-ink">{tile.title}</h3>
-                    <p className="mt-2 text-sm text-zinc-600 leading-relaxed">{tile.body}</p>
-                  </article>
-                </RevealItem>
-              );
-            })}
-          </Stagger>
+            <div>
+              <div className="relative min-h-[520px] overflow-hidden bg-ink text-white">
+                <Parallax speed={-0.08} className="absolute left-0 top-0 h-[62%] w-[56%]">
+                  <img
+                    src={momentumImages[0].src}
+                    alt={momentumImages[0].alt}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    className="h-full w-full object-cover"
+                  />
+                </Parallax>
+                <Parallax speed={0.1} className="absolute right-0 top-[18%] h-[62%] w-[58%] border-l-4 border-brand-gold">
+                  <img
+                    src={momentumImages[1].src}
+                    alt={momentumImages[1].alt}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    className="h-full w-full object-cover"
+                  />
+                </Parallax>
+                <Parallax speed={-0.04} className="absolute bottom-0 left-[18%] h-[38%] w-[46%] border-t-4 border-white">
+                  <img
+                    src={momentumImages[2].src}
+                    alt={momentumImages[2].alt}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    className="h-full w-full object-cover"
+                  />
+                </Parallax>
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-ink/20" />
+                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-6">
+                  <p className="max-w-sm font-display text-2xl font-bold leading-tight">
+                    Production, social and identity moving in one direction.
+                  </p>
+                  <span className="hidden text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold sm:block">
+                    Scroll-built
+                  </span>
+                </div>
+              </div>
+
+              <Stagger className="mt-10 divide-y divide-line border-y border-line">
+                {creativeDirections.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <RevealItem key={item.title}>
+                      <article className="group grid gap-5 py-6 sm:grid-cols-[5rem_1fr_auto] sm:items-center">
+                        <span className="font-display text-3xl font-black text-zinc-300 transition-colors group-hover:text-brand-gold-hover">
+                          {item.no}
+                        </span>
+                        <div>
+                          <h3 className="font-display text-2xl font-bold tracking-normal text-ink">
+                            {item.title}
+                          </h3>
+                          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-zinc-600">
+                            {item.body}
+                          </p>
+                        </div>
+                        <span className="flex h-11 w-11 items-center justify-center bg-ink text-brand-gold transition-transform group-hover:-translate-y-1">
+                          <Icon className="h-5 w-5" />
+                        </span>
+                      </article>
+                    </RevealItem>
+                  );
+                })}
+              </Stagger>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -243,24 +310,35 @@ export default function Home() {
       </section>
 
       {/* ============ VALUES ============ */}
-      <section className="py-16 sm:py-20 bg-white border-y border-line">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="max-w-2xl mb-12">
+      <section className="py-16 sm:py-24 bg-white border-y border-line">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+          <Reveal direction="right" className="max-w-xl">
             <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">What drives us</p>
-            <h2 className="mt-2 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink">
+            <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-normal text-ink leading-tight">
               The values behind every frame.
             </h2>
+            <p className="mt-5 text-zinc-600 leading-relaxed">
+              We keep the work focused on what a brand needs to feel active: original thinking, consistent
+              production and a visual system people can recognise.
+            </p>
           </Reveal>
-          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {values.map((v) => {
+          <Stagger className="divide-y divide-line border-y border-line">
+            {values.map((v, i) => {
               const Icon = iconMap[v.icon];
               return (
-                <RevealItem key={v.title} className="group rounded-[1.5rem] bg-canvas border border-line p-6 shadow-soft lift">
-                  <span className="w-12 h-12 rounded-xl bg-brand-gold-wash group-hover:bg-brand-gold flex items-center justify-center text-brand-gold-hover group-hover:text-ink transition-colors">
-                    {Icon && <Icon className="w-6 h-6" />}
-                  </span>
-                  <h3 className="mt-5 font-display font-bold text-lg text-ink">{v.title}</h3>
-                  <p className="mt-2 text-sm text-zinc-600 leading-relaxed">{v.body}</p>
+                <RevealItem key={v.title}>
+                  <article className="group grid gap-4 py-6 sm:grid-cols-[4rem_1fr] sm:items-start">
+                    <span className="flex h-12 w-12 items-center justify-center bg-brand-gold-wash text-brand-gold-hover transition-colors group-hover:bg-brand-gold group-hover:text-ink">
+                      {Icon && <Icon className="w-6 h-6" />}
+                    </span>
+                    <div>
+                      <div className="flex items-baseline gap-3">
+                        <span className="font-mono text-xs text-zinc-400">0{i + 1}</span>
+                        <h3 className="font-display font-bold text-2xl text-ink tracking-normal">{v.title}</h3>
+                      </div>
+                      <p className="mt-2 text-sm text-zinc-600 leading-relaxed">{v.body}</p>
+                    </div>
+                  </article>
                 </RevealItem>
               );
             })}

@@ -1,8 +1,7 @@
 /* ------------------------------------------------------------------
-   AestheticLogo — Markadeo's brand mark.
-   A refined gold-gradient "M" monogram in a soft, rounded badge,
-   paired with a clean wordmark. The badge reads well on light or
-   dark surfaces; the wordmark adapts via the `tone` prop.
+   AestheticLogo — Markadeo's rising-bar brand mark paired with a
+   clean wordmark. The badge reads well on light or dark surfaces;
+   the wordmark adapts via the `tone` prop.
 ------------------------------------------------------------------ */
 
 export function AestheticLogoIcon({ className = "w-10 h-10" }: { className?: string }) {
@@ -28,21 +27,31 @@ export function AestheticLogoIcon({ className = "w-10 h-10" }: { className?: str
           </linearGradient>
         </defs>
 
-        {/* Rounded badge */}
-        <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#mk-bg)" />
-        <rect x="2.5" y="2.5" width="43" height="43" rx="12.5" fill="none" stroke="#FFFFFF" strokeOpacity="0.08" />
+        {/* Badge */}
+        <rect x="2" y="2" width="44" height="44" rx="10" fill="url(#mk-bg)" />
+        <rect x="2.5" y="2.5" width="43" height="43" rx="9.5" fill="none" stroke="#FFFFFF" strokeOpacity="0.08" />
         {/* Glass top highlight */}
-        <rect x="6" y="5" width="36" height="16" rx="8" fill="#FFFFFF" opacity="0.05" />
+        <rect x="6" y="5" width="36" height="14" rx="7" fill="#FFFFFF" opacity="0.05" />
 
-        {/* Monogram "M" */}
+        {/* Rising bar signal */}
+        <rect x="12" y="29" width="4.5" height="7" rx="2.25" fill="#FBCB57" />
+        <rect x="19" y="25" width="4.5" height="11" rx="2.25" fill="#F8BE39" />
+        <rect x="26" y="20" width="4.5" height="16" rx="2.25" fill="#F5B82E" />
+        <rect x="33" y="14" width="4.5" height="22" rx="2.25" fill="#E5A412" />
         <path
-          d="M14.5 33.5 V15.5 L24 26 L33.5 15.5 V33.5"
+          d="M11.5 23.5 L19.5 18.5 L26.5 20.5 L37 10.5"
           stroke="url(#mk-gold)"
-          strokeWidth="3.2"
+          strokeWidth="2.4"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <circle cx="24" cy="26" r="1.7" fill="#FBCB57" />
+        <path
+          d="M32.5 10.5 H37 V15"
+          stroke="#FBCB57"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </div>
   );

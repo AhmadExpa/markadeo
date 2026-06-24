@@ -4,15 +4,13 @@ import { useRef } from 'react';
 import ParticleField from './ParticleField';
 
 /* ------------------------------------------------------------------
-   VideoHero — full-bleed looping muted stock video with a readable
-   scrim, parallax headline and a soft scroll cue. Prop-driven so it
-   serves both the homepage and lighter page headers.
-
-   Falls back to a ken-burns still under reduced-motion or if the
-   video fails (poster always shown beneath).
+   VideoHero — image-first page header with a readable scrim, parallax
+   headline and a soft scroll cue. It keeps the old `videoSrc` prop so
+   existing page calls do not need to change, but it intentionally does
+   not autoplay video.
 ------------------------------------------------------------------ */
 export default function VideoHero({
-  videoSrc,
+  videoSrc: _videoSrc,
   poster,
   eyebrow,
   title,
@@ -34,6 +32,8 @@ export default function VideoHero({
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '28%']);
+  const mediaY = useTransform(scrollYProgress, [0, 1], ['0%', '14%']);
+  const mediaScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   const heights = {
@@ -50,26 +50,14 @@ export default function VideoHero({
     >
       {/* Media layer */}
       <div className="absolute inset-0 -z-10">
-        <img
+        <motion.img
           src={poster}
           alt=""
           aria-hidden
           referrerPolicy="no-referrer"
-          className={`absolute inset-0 w-full h-full object-cover ${reduced ? 'ken-burns' : ''}`}
+          style={reduced ? undefined : { y: mediaY, scale: mediaScale }}
+          className="absolute inset-0 w-full h-full object-cover"
         />
-        {!reduced && (
-          <video
-            className="absolute inset-0 w-full h-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={poster}
-            preload="metadata"
-          >
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        )}
         <ParticleField className="absolute inset-0 opacity-70" />
         <div className="absolute inset-0 video-scrim" />
       </div>
