@@ -1,15 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
 
   /* Markadeo — light SaaS palette (yellow / black / white) */
   --color-brand-gold: #F5B82E;
   --color-brand-gold-hover: #E5A412;
   --color-brand-gold-soft: #FCEBBE;   /* tinted fills */
   --color-brand-gold-wash: #FFF8E9;   /* faint section backing */
+
+  /* Trifid Media style color tokens */
+  --color-brand-blue: #001FA8;
+  --color-brand-blue-dark: #001570;
+  --color-brand-yellow: #FFC80A;
+  --color-brand-yellow-hover: #E6B400;
+  --color-brand-teal: #009F93;
+  --color-brand-teal-dark: #007A71;
 
   --color-ink: #0B0B0C;               /* near-black text / dark surfaces */
   --color-ink-soft: #1A1A1C;
@@ -383,4 +391,30 @@ input[type="range"].slider-gold::-moz-range-thumb {
   .marquee-track,
   .kinetic-track,
   .ken-burns { animation: none; }
+}
+
+/* ============================================================
+   TRIFID MEDIA CUSTOM UTILITIES
+   ============================================================ */
+.clip-slanted-down {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3vw), 0 100%);
+}
+
+.clip-slanted-up {
+  clip-path: polygon(0 3vw, 100% 0, 100% 100%, 0 100%);
+}
+
+.clip-slanted-both {
+  clip-path: polygon(0 3vw, 100% 0, 100% calc(100% - 3vw), 0 100%);
+}
+
+.content-clip-mask {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }

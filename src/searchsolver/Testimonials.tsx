@@ -72,14 +72,9 @@ export default function Testimonials() {
             referrerPolicy="no-referrer"
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/76 via-ink/20 to-ink/10" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-            <div className="flex h-28 items-end gap-2">
-              {[34, 48, 58, 76, 88, 100].map((height) => (
-                <span key={height} className="w-full bg-brand-gold" style={{ height: `${height}%` }} />
-              ))}
-            </div>
-            <p className="mt-5 max-w-sm font-display text-2xl font-bold leading-tight">
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-ink/10" />
+          <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-10">
+            <p className="font-display text-2xl font-black uppercase leading-tight text-white tracking-wider">
               Faster planning only matters when the final output still feels crafted.
             </p>
           </div>

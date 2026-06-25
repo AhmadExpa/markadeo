@@ -59,19 +59,24 @@ export function AestheticLogoIcon({ className = "w-10 h-10" }: { className?: str
 
 export function AestheticLogoProduct({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
   const wordColor = tone === 'light' ? 'text-white' : 'text-ink';
-  const tagColor = tone === 'light' ? 'text-zinc-400' : 'text-zinc-500';
-
+  const bracketColor = tone === 'light' ? 'border-white/20' : 'border-black/10';
+  
   return (
-    <div className="flex items-center gap-2.5 sm:gap-3 group">
-      <AestheticLogoIcon className="w-9 h-9 sm:w-10 sm:h-10 transition-transform duration-300 group-hover:scale-[1.05]" />
-      <div className="flex flex-col text-left leading-none">
-        <span className={`font-display font-bold text-lg sm:text-xl tracking-tight ${wordColor} leading-none`}>
-          Marka<span className="gold-gradient-text">deo</span>
-        </span>
-        <span className={`mt-1 text-[8px] sm:text-[9px] font-medium tracking-[0.18em] ${tagColor} uppercase leading-none`}>
-          Creative Content House
+    <div className="flex flex-col items-center justify-center select-none font-display">
+      <div className={`relative px-4 py-1.5 border-t border-b ${bracketColor} flex items-center justify-center`}>
+        {/* Futuristic brackets at the corners */}
+        <span className={`absolute top-0 left-0 w-2 h-1.5 border-l border-t ${tone === 'light' ? 'border-white' : 'border-ink'}`} />
+        <span className={`absolute top-0 right-0 w-2 h-1.5 border-r border-t ${tone === 'light' ? 'border-white' : 'border-ink'}`} />
+        <span className={`absolute bottom-0 left-0 w-2 h-1.5 border-l border-b ${tone === 'light' ? 'border-white' : 'border-ink'}`} />
+        <span className={`absolute bottom-0 right-0 w-2 h-1.5 border-r border-b ${tone === 'light' ? 'border-white' : 'border-ink'}`} />
+        
+        <span className={`text-xl font-black tracking-[0.25em] uppercase ${wordColor} leading-none pl-1`}>
+          MARKADEO
         </span>
       </div>
+      <span className={`mt-1 text-[7px] font-bold tracking-[0.45em] text-zinc-500 uppercase leading-none pl-1`}>
+        MEDIA
+      </span>
     </div>
   );
 }

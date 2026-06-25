@@ -43,7 +43,7 @@ export default function Work() {
 
           {/* Bento grid */}
           <motion.div layout className="grid grid-cols-2 lg:grid-cols-4 auto-rows-[200px] sm:auto-rows-[240px] gap-4">
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence>
               {shown.map((w) => (
                 <motion.figure
                   key={w.id}

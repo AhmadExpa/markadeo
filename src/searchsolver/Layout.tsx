@@ -7,6 +7,7 @@ import Preloader from './Preloader';
 import CustomCursor from './CustomCursor';
 import LegalModal from './LegalModal';
 import { ScrollProgress, BackToTop } from './ScrollFX';
+import WhatsAppButton from './WhatsAppButton';
 
 /* ------------------------------------------------------------------
    Layout — the persistent shell around every routed page.
@@ -32,6 +33,7 @@ export default function Layout() {
 
       <ScrollProgress />
       <BackToTop />
+      <WhatsAppButton />
       <CustomCursor />
 
       <Navbar />

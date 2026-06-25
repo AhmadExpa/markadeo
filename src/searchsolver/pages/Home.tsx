@@ -1,496 +1,436 @@
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowRight,
   MessageCircle,
   Play,
-  Boxes,
-  Wand2,
-  Layers,
-  AlertTriangle,
-  CheckCircle2,
-  BrainCircuit,
-  CalendarDays,
-  Megaphone,
-  TrendingUp,
-  MessageSquare,
-  Target,
+  ArrowUpRight,
 } from 'lucide-react';
 import CreativeHero from '../CreativeHero';
-import ServiceSlider from '../ServiceSlider';
 import Pricing from '../Pricing';
 import Testimonials from '../Testimonials';
 import MarqueeLogos from '../MarqueeLogos';
 import CTASection from '../CTASection';
-import Tilt from '../Tilt';
-import Object3D from '../Object3D';
-import { Reveal, Stagger, RevealItem, Marker, Parallax, Magnetic } from '../ScrollFX';
-import { MEDIA, values, waLink, DEFAULT_WA_MESSAGE } from '../siteData';
-import { iconMap } from '../icons';
+import { Reveal, Stagger, RevealItem } from '../ScrollFX';
+import { waLink, DEFAULT_WA_MESSAGE, services, MEDIA } from '../siteData';
+import { GSAPParallax, GSAPScrollRotate } from '../GSAPScrollFX';
 
-const socialProblems = [
-  {
-    icon: CalendarDays,
-    title: 'Inconsistent posting',
-    body: 'The page goes quiet, then posts in bursts. Customers see gaps instead of a living brand.',
-  },
-  {
-    icon: MessageSquare,
-    title: 'No clear content angle',
-    body: 'Posts are made just to post, without hooks, offers, storytelling or a reason to follow.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Weak feedback loop',
-    body: 'Nobody is reading the results properly, so the account keeps repeating what is not working.',
-  },
-];
+function CircularStamp() {
+  return (
+    <svg viewBox="0 0 100 100" className="w-24 h-24 sm:w-32 sm:h-32 text-zinc-400 fill-current opacity-70">
+      <path
+        id="stampCirclePath"
+        d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+        fill="none"
+      />
+      <text className="font-display font-bold uppercase text-[5.5px] tracking-[0.25em] fill-current">
+        <textPath href="#stampCirclePath" startOffset="0%">
+          • MARKADEO MEDIA • CREATIVE HOUSE • DIGITAL DESIGN •
+        </textPath>
+      </text>
+    </svg>
+  );
+}
 
-const socialFixes = [
-  'Audit the current accounts, content gaps and customer journey.',
-  'Build an AI-assisted calendar with clear hooks, captions and creative direction.',
-  'Produce fresh content, publish consistently and keep the brand active daily.',
-  'Report what is working in plain English, then adjust the next batch.',
-];
+function HeroVideoPlayer() {
+  const [videoEnded, setVideoEnded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-const creativeDirections = [
-  {
-    no: '01',
-    icon: MessageCircle,
-    title: 'Human conversation',
-    body: 'Captions, replies and hooks that sound like a real brand, not a template.',
-  },
-  {
-    no: '02',
-    icon: TrendingUp,
-    title: 'Sharper signal',
-    body: 'We read the account, the audience and the platform before the next post goes out.',
-  },
-  {
-    no: '03',
-    icon: Play,
-    title: 'Short-form rhythm',
-    body: 'Edits, cuts and content series built for feeds that move quickly.',
-  },
-  {
-    no: '04',
-    icon: Wand2,
-    title: 'Visual craft',
-    body: 'Sharper art direction, production polish and design consistency across every asset.',
-  },
-  {
-    no: '05',
-    icon: Megaphone,
-    title: 'Launch pacing',
-    body: 'Campaign-ready assets, posting rhythm and optional ad planning laid out before launch.',
-  },
-  {
-    no: '06',
-    icon: Target,
-    title: 'Platform fit',
-    body: 'Built to land where the audience already looks: social feeds, search, shorts and stories.',
-  },
-];
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch((err) => {
+        console.log('Autoplay blocked:', err);
+      });
+    }
+  }, []);
 
-const momentumImages = [
-  {
-    src: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=80',
-    alt: 'A cinematic production camera on set.',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=900&q=80',
-    alt: 'A phone showing social content.',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=900&q=80',
-    alt: 'Brand identity work laid out on a table.',
-  },
-];
+  return (
+    <div className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-zinc-950">
+      {!videoEnded ? (
+        <video
+          ref={videoRef}
+          src="https://videos.pexels.com/video-files/8993415/8993415-uhd_2560_1440_30fps.mp4"
+          muted
+          playsInline
+          onEnded={() => setVideoEnded(true)}
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <img
+          src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
+          alt="Creative studio collaboration"
+          className="w-full h-full object-cover animate-fade-in"
+        />
+      )}
+    </div>
+  );
+}
 
 export default function Home() {
+  const [activeServiceIdx, setActiveServiceIdx] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Extend the 5 services from siteData to include a 6th Pricing item to match Trifid's 6-item layout
+  const displayedServices = [
+    ...services,
+    {
+      id: 'pricing',
+      no: '06',
+      title: 'Pricing & ROI Plans',
+      short: 'Flexible monthly growth packages tailored for your brand.',
+      description: 'Find the ideal plan to get your brand permanently established on social media. Choose between our Essentials, Extra, and Ultra Premium packages to start growing your organic reach today.',
+      features: ['Essentials Pack', 'Extra Plan', 'Ultra Premium'],
+      image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80',
+      imageAlt: 'Team pricing models and brand strategizing.',
+    }
+  ];
+
+  // Auto-cycle service preview screens when the user is not actively hovering
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      setActiveServiceIdx((prev) => (prev + 1) % displayedServices.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isHovered, displayedServices.length]);
+
   return (
     <>
-      {/* ============ HERO ============ */}
+      {/* ============ HERO SECTION ============ */}
       <CreativeHero
-        eyebrow="Creative content house"
+        eyebrow="Creative Content House"
         title={<>Markadeo makes brands impossible to scroll past.</>}
-        subtitle="Content, 3D, social, branding and web builds under one roof. We turn quiet channels into a living brand system with stronger visuals, clearer rhythm and content people actually want to watch."
-      >
-        <div className="flex flex-col sm:flex-row items-center gap-3">
-          <Magnetic>
-            <motion.a
-              href={waLink(DEFAULT_WA_MESSAGE)}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              className="group inline-flex items-center gap-2 bg-brand-gold hover:bg-brand-gold-hover text-ink font-semibold px-7 py-4 rounded-full transition-colors cursor-pointer shadow-gold"
-            >
-              <MessageCircle className="w-4 h-4" />
-              Start your project
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-            </motion.a>
-          </Magnetic>
-          <Link
-            to="/work"
-            className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur text-white font-semibold px-7 py-4 rounded-full transition-colors cursor-pointer border border-white/20"
-          >
-            <Play className="w-4 h-4 fill-current" />
-            See our work
-          </Link>
-        </div>
-      </CreativeHero>
+        subtitle="Content, 3D, social, branding, and web builds under one roof. We turn quiet channels into a living brand system with stronger visuals, clearer rhythm, and content people actually want to watch."
+        rightElement={<HeroVideoPlayer />}
+      />
 
-      {/* ============ SCROLL STORY ============ */}
-      <section className="relative overflow-hidden bg-white py-20 sm:py-28 scroll-mt-24">
-        <div className="absolute inset-x-0 top-0 h-px bg-line" aria-hidden />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-line" aria-hidden />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-            <Reveal direction="right" className="lg:sticky lg:top-28 lg:self-start">
-              <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">
-                Six directions
-              </p>
-              <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-normal text-ink leading-none">
-                Make the feed feel alive before anyone reads a caption.
-              </h2>
-              <p className="mt-6 max-w-xl text-zinc-600 leading-relaxed">
-                From the first hook to the final publish, every asset should feel connected: visual
-                direction, captions, platform fit and the next action.
-              </p>
-              <div className="mt-8 flex items-center gap-4 border-y border-line py-5">
-                <span className="font-display text-5xl font-black text-ink">06</span>
-                <span className="max-w-xs text-sm font-medium uppercase tracking-[0.18em] text-zinc-500">
-                  connected creative moves, one content engine
+      {/* ============ NEW GENERATION SECTION ============ */}
+      <section className="relative overflow-hidden bg-white py-24 sm:py-32">
+        {/* Organic background boundary elements (Slide 2 style) */}
+        <div className="absolute top-12 -left-16 w-36 h-96 bg-brand-yellow rounded-full blur-[100px] opacity-45 pointer-events-none" />
+        <div className="absolute bottom-12 -right-20 w-48 h-[400px] bg-brand-blue rounded-full blur-[120px] opacity-15 pointer-events-none" />
+
+        {/* Floating GSAP Parallax Shape */}
+        <GSAPParallax yPercent={45} className="absolute right-12 top-1/4 z-10 pointer-events-none hidden md:block">
+          <div className="w-20 h-20 bg-brand-yellow/15 border border-brand-yellow/30 rounded-3xl backdrop-blur-sm flex items-center justify-center rotate-12 animate-pulse">
+            <span className="font-mono text-sm text-brand-yellow font-black">M_</span>
+          </div>
+        </GSAPParallax>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-12 gap-16 items-center">
+            {/* Left text column */}
+            <div className="lg:col-span-7">
+              <Reveal direction="right">
+                <span className="text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase mb-4 block">
+                  New Generation
                 </span>
-              </div>
-            </Reveal>
+                
+                <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight text-ink leading-[1.05] uppercase select-none">
+                  We Create Powerful, Innovative, Fun, and Memorable Content.
+                </h2>
+                
+                <p className="mt-8 text-base sm:text-lg text-zinc-600 leading-relaxed font-medium">
+                  Our company is centered on the idea that everything you could possibly need is available under one roof. From creative conceptualisation to production and execution - we do it all.
+                </p>
+                
+                <p className="mt-4 text-sm text-zinc-500 leading-relaxed max-w-xl">
+                  No outsourced fluff, no empty metrics. We design experiences, social campaigns, and digital platforms that turn passive scrolling into authentic brand loyalty.
+                </p>
 
-            <div>
-              <div className="relative min-h-[520px] overflow-hidden bg-ink text-white">
-                <Parallax speed={-0.08} className="absolute left-0 top-0 h-[62%] w-[56%]">
-                  <img
-                    src={momentumImages[0].src}
-                    alt={momentumImages[0].alt}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover"
-                  />
-                </Parallax>
-                <Parallax speed={0.1} className="absolute right-0 top-[18%] h-[62%] w-[58%] border-l-4 border-brand-gold">
-                  <img
-                    src={momentumImages[1].src}
-                    alt={momentumImages[1].alt}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover"
-                  />
-                </Parallax>
-                <Parallax speed={-0.04} className="absolute bottom-0 left-[18%] h-[38%] w-[46%] border-t-4 border-white">
-                  <img
-                    src={momentumImages[2].src}
-                    alt={momentumImages[2].alt}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover"
-                  />
-                </Parallax>
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-ink/20" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-6">
-                  <p className="max-w-sm font-display text-2xl font-bold leading-tight">
-                    Production, social and identity moving in one direction.
-                  </p>
-                  <span className="hidden text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold sm:block">
-                    Scroll-built
-                  </span>
+                <div className="mt-10">
+                  <Link
+                    to="/about"
+                    className="inline-flex items-center gap-2 bg-black hover:bg-zinc-900 text-white font-bold tracking-widest text-xs uppercase px-8 py-4 rounded-none transition-all shadow-md"
+                  >
+                    Company Profile
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
-              </div>
+              </Reveal>
+            </div>
 
-              <Stagger className="mt-10 divide-y divide-line border-y border-line">
-                {creativeDirections.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <RevealItem key={item.title}>
-                      <article className="group grid gap-5 py-6 sm:grid-cols-[5rem_1fr_auto] sm:items-center">
-                        <span className="font-display text-3xl font-black text-zinc-300 transition-colors group-hover:text-brand-gold-hover">
-                          {item.no}
-                        </span>
-                        <div>
-                          <h3 className="font-display text-2xl font-bold tracking-normal text-ink">
-                            {item.title}
-                          </h3>
-                          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-zinc-600">
-                            {item.body}
-                          </p>
-                        </div>
-                        <span className="flex h-11 w-11 items-center justify-center bg-ink text-brand-gold transition-transform group-hover:-translate-y-1">
-                          <Icon className="h-5 w-5" />
-                        </span>
-                      </article>
-                    </RevealItem>
-                  );
-                })}
-              </Stagger>
+            {/* Right column: Floating 3D thumbs-up image */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <Reveal direction="left">
+                <motion.div
+                  animate={{ y: [0, -15, 0] }}
+                  transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
+                  className="relative w-64 h-64 sm:w-80 sm:h-80 select-none pointer-events-none"
+                >
+                  {/* Subtle pulsing shadow under the asset */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-48 h-4 bg-zinc-200/50 rounded-full blur-md opacity-70" />
+                  <img
+                    src="/assets/thumbs_up_3d.png"
+                    alt="3D Thumbs up"
+                    className="w-full h-full object-contain"
+                  />
+                </motion.div>
+              </Reveal>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ============ KINETIC STRIP ============ */}
-      <div className="py-8 sm:py-10 bg-white border-y border-line overflow-hidden">
-        <div className="kinetic-track gap-8">
-          {[...Array(2)].map((_, r) => (
-            <div key={r} className="flex items-center gap-8">
-              {['Content', '3D & Motion', 'Social', 'TikTok', 'Branding', 'Web & App'].map((w) => (
-                <span key={w} className="flex items-center gap-8">
-                  <span className="font-display font-black text-3xl sm:text-5xl tracking-tight text-ink">{w}</span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-brand-gold" />
-                </span>
+      {/* ============ INTERACTIVE SERVICES SECTION ============ */}
+      <section className="relative bg-brand-blue text-white clip-slanted-both py-28 sm:py-36 overflow-hidden">
+        {/* Subtle decorative background line */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.06)_0%,transparent_70%)] pointer-events-none" />
+
+        {/* Floating GSAP Parallax Shape */}
+        <GSAPParallax yPercent={-50} className="absolute left-12 bottom-12 pointer-events-none hidden lg:block z-10">
+          <div className="w-16 h-16 rounded-full border border-white/25 bg-white/10 backdrop-blur-md flex items-center justify-center rotate-45">
+            <span className="font-display text-brand-yellow text-xs font-black">3D</span>
+          </div>
+        </GSAPParallax>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          {/* Section Heading */}
+          <div className="text-center mb-20">
+            <span className="text-xs font-bold tracking-[0.25em] text-brand-yellow uppercase mb-3 block">
+              What We Do
+            </span>
+            <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight uppercase">
+              Our Creative Services
+            </h2>
+            <div className="w-12 h-1 bg-brand-yellow mx-auto mt-6" />
+          </div>
+
+          {/* Interactive grid */}
+          <div className="grid lg:grid-cols-12 gap-10 items-center">
+            
+            {/* Left Column: Services 01 - 03 */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              {displayedServices.slice(0, 3).map((item, idx) => (
+                <div
+                  key={item.id}
+                  onMouseEnter={() => {
+                    setActiveServiceIdx(idx);
+                    setIsHovered(true);
+                  }}
+                  onMouseLeave={() => setIsHovered(false)}
+                  className={`group relative p-6 border-b border-white/10 hover:border-brand-yellow transition-all cursor-pointer ${
+                    activeServiceIdx === idx ? 'border-brand-yellow bg-white/[0.04]' : ''
+                  }`}
+                >
+                  <div className="flex items-baseline gap-4 mb-2">
+                    <span className="font-mono text-xs text-brand-yellow font-bold">{item.no}</span>
+                    <h3 className="font-display font-black text-lg sm:text-xl uppercase tracking-wider group-hover:text-brand-yellow transition-colors">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+                    {item.short}
+                  </p>
+                  <div className="absolute right-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ArrowUpRight className="w-4 h-4 text-brand-yellow" />
+                  </div>
+                </div>
               ))}
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* ============ INTRO / NEW GENERATION ============ */}
-      <section className="py-20 sm:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <Reveal direction="right">
-            <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">
-              A new generation of content
-            </p>
-            <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink leading-tight">
-              From idea to execution — <Marker>one creative team.</Marker>
-            </h2>
-            <p className="mt-5 text-lg text-zinc-600 leading-relaxed">
-              Most brands overpay marketplaces and ad platforms just to be seen for a moment. We do it
-              differently: we build your presence so the audience is genuinely <em>yours</em>. AI-driven
-              content planning, AI-assisted production and always-on social management all happen in-house,
-              so the work stays fast, sharp and consistent.
-            </p>
-            <p className="mt-4 text-zinc-600 leading-relaxed">
-              No sales promises. No smoke. Just powerful, innovative, memorable content with a clear
-              reason behind every post, caption, edit and campaign direction. Paid advertisement campaigns
-              are scoped and priced separately.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap items-start gap-3">
-              <Link to="/services" className="inline-flex items-center justify-center gap-2 bg-ink text-white font-semibold px-6 py-3.5 rounded-full hover:bg-black transition-colors">
-                Explore services <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link to="/about" className="inline-flex items-center justify-center gap-2 bg-white border border-line text-ink font-semibold px-6 py-3.5 rounded-full hover:bg-canvas transition-colors shadow-soft">
-                Our story
-              </Link>
-            </div>
-          </Reveal>
-
-          <Reveal direction="left" className="relative">
-            <Parallax speed={-0.06} className="absolute -top-8 -left-6 hidden sm:block">
-              <div className="w-24 h-24 rounded-3xl bg-brand-gold-wash border border-brand-gold/30 rotate-12" />
-            </Parallax>
-            <Tilt className="relative rounded-[2rem] overflow-hidden border border-line shadow-soft-lg">
-              <img
-                src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80"
-                alt="A creator producing content in a studio."
-                loading="lazy"
-                referrerPolicy="no-referrer"
-                className="w-full h-[340px] sm:h-[520px] object-cover"
-              />
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between bg-white/90 backdrop-blur rounded-2xl px-5 py-4 shadow-soft">
-                <div>
-                  <p className="font-display font-bold text-ink">In-house studio</p>
-                  <p className="text-sm text-zinc-500">Shoot · edit · render · publish</p>
+            {/* Center Column: Interactive Smartphone Mockup */}
+            <div className="lg:col-span-4 flex justify-center py-8">
+              <div className="relative w-[280px] h-[550px] bg-zinc-950 rounded-[3rem] p-3.5 border-[6px] border-zinc-800 shadow-2xl flex-shrink-0">
+                {/* Speaker/Camera notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-zinc-800 rounded-b-xl z-20 flex items-center justify-center">
+                  <div className="w-12 h-1 bg-zinc-900 rounded-full" />
                 </div>
-                <span className="w-11 h-11 rounded-xl bg-brand-gold flex items-center justify-center text-ink">
-                  <Wand2 className="w-5 h-5" />
-                </span>
-              </div>
-            </Tilt>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ============ VALUES ============ */}
-      <section className="py-16 sm:py-24 bg-white border-y border-line">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
-          <Reveal direction="right" className="max-w-xl">
-            <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">What drives us</p>
-            <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-normal text-ink leading-tight">
-              The values behind every frame.
-            </h2>
-            <p className="mt-5 text-zinc-600 leading-relaxed">
-              We keep the work focused on what a brand needs to feel active: original thinking, consistent
-              production and a visual system people can recognise.
-            </p>
-          </Reveal>
-          <Stagger className="divide-y divide-line border-y border-line">
-            {values.map((v, i) => {
-              const Icon = iconMap[v.icon];
-              return (
-                <RevealItem key={v.title}>
-                  <article className="group grid gap-4 py-6 sm:grid-cols-[4rem_1fr] sm:items-start">
-                    <span className="flex h-12 w-12 items-center justify-center bg-brand-gold-wash text-brand-gold-hover transition-colors group-hover:bg-brand-gold group-hover:text-ink">
-                      {Icon && <Icon className="w-6 h-6" />}
-                    </span>
-                    <div>
-                      <div className="flex items-baseline gap-3">
-                        <span className="font-mono text-xs text-zinc-400">0{i + 1}</span>
-                        <h3 className="font-display font-bold text-2xl text-ink tracking-normal">{v.title}</h3>
+                
+                {/* Screen frame */}
+                <div className="relative w-full h-full rounded-[2.25rem] overflow-hidden bg-zinc-900">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeServiceIdx}
+                      initial={{ opacity: 0, scale: 1.05 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="absolute inset-0 w-full h-full"
+                    >
+                      <img
+                        src={displayedServices[activeServiceIdx]?.image}
+                        alt={displayedServices[activeServiceIdx]?.imageAlt}
+                        className="w-full h-full object-cover"
+                      />
+                      
+                      {/* Gradient overlay for screen text legibility */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/45 flex flex-col justify-end p-5" />
+                      
+                      <div className="absolute bottom-5 left-5 right-5 z-10 text-left">
+                        <span className="text-[10px] font-bold tracking-widest text-brand-yellow uppercase">
+                          Service {displayedServices[activeServiceIdx]?.no}
+                        </span>
+                        <h4 className="font-display font-black text-white text-base sm:text-lg uppercase leading-tight mt-1">
+                          {displayedServices[activeServiceIdx]?.title}
+                        </h4>
+                        <ul className="mt-3.5 space-y-1.5">
+                          {displayedServices[activeServiceIdx]?.features.slice(0, 3).map((f) => (
+                            <li key={f} className="text-[10px] font-semibold tracking-wider text-zinc-300 uppercase flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-brand-yellow" />
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <p className="mt-2 text-sm text-zinc-600 leading-relaxed">{v.body}</p>
-                    </div>
-                  </article>
-                </RevealItem>
-              );
-            })}
-          </Stagger>
-        </div>
-      </section>
-
-      {/* ============ SERVICES SLIDER ============ */}
-      <ServiceSlider />
-
-      {/* ============ CONTENT IS KING BAND ============ */}
-      <section className="py-16 sm:py-20">
-        <Reveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-[2rem] bg-ink text-white p-10 sm:p-16">
-            <div className="absolute -bottom-20 -right-10 w-96 h-96 rounded-full bg-brand-gold/20 blur-[120px] pointer-events-none blob-drift" aria-hidden />
-            <div className="relative grid lg:grid-cols-2 gap-10 items-center">
-              <div>
-                <span className="text-sm font-semibold text-brand-gold uppercase tracking-[0.18em]">The one rule</span>
-                <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight">
-                  Content is <span className="gold-shimmer">king.</span>
-                </h2>
-                <p className="mt-5 text-zinc-300 leading-relaxed max-w-lg">
-                  Rented reach disappears the moment you stop paying. Content you own keeps working.
-                  We build a library of work that earns attention, trust and visits — long after it goes live.
-                </p>
-                <Link to="/services" className="mt-8 inline-flex items-center gap-2 bg-brand-gold text-ink font-semibold px-7 py-4 rounded-full hover:bg-brand-gold-hover transition-colors shadow-gold">
-                  See what we make <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { icon: Layers, label: 'Owned content', sub: 'Works forever' },
-                  { icon: Boxes, label: '3D & motion', sub: 'In-house renders' },
-                ].map((c) => (
-                  <Tilt key={c.label} className="rounded-2xl bg-white/[0.06] border border-white/10 p-6">
-                    <span className="w-11 h-11 rounded-xl bg-brand-gold flex items-center justify-center text-ink">
-                      <c.icon className="w-5 h-5" />
-                    </span>
-                    <p className="mt-4 font-display font-bold text-lg">{c.label}</p>
-                    <p className="text-sm text-zinc-400">{c.sub}</p>
-                  </Tilt>
-                ))}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
-          </div>
-        </Reveal>
-      </section>
 
-      {/* ============ 3D FEATURE (video + real 3D object) ============ */}
-      <section className="relative py-24 sm:py-32 overflow-hidden bg-ink">
-        {/* Dark base keeps text readable even if the video is slow / blocked */}
-        <div className="absolute inset-0 z-0">
-          <video className="w-full h-full object-cover opacity-60" autoPlay muted loop playsInline poster={MEDIA.heroPoster}>
-            <source src={MEDIA.threeDVideo} type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/40" />
-          <div className="absolute inset-0 bg-ink/30" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
-          <Reveal direction="right" className="text-center lg:text-left">
-            <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
-              <Boxes className="w-3.5 h-3.5 text-brand-gold" /> 3D & Motion
-            </span>
-            <h2 className="mt-6 font-display font-bold text-4xl sm:text-6xl tracking-tight text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.5)]">
-              Creative 3D animation,<br /> rendered in-house.
-            </h2>
-            <p className="mt-6 text-lg text-zinc-100/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              Product visualisations, virtual worlds and character design — the kind of motion that makes
-              people stop, look and remember. Built by our own animators, not outsourced.
-            </p>
-            <Link to="/services" className="mt-8 inline-flex items-center gap-2 bg-brand-gold text-ink font-semibold px-7 py-4 rounded-full hover:bg-brand-gold-hover transition-colors shadow-gold">
-              Explore 3D production <ArrowRight className="w-4 h-4" />
-            </Link>
-          </Reveal>
-
-          {/* Genuine CSS 3D object — a tumbling gold cube */}
-          <Reveal direction="left" className="flex justify-center lg:justify-end">
-            <Object3D />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ============ SOCIAL ACCOUNT DIAGNOSIS ============ */}
-      <section id="social-diagnosis" className="py-16 sm:py-24 bg-white border-y border-line scroll-mt-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-14 items-stretch">
-          <Reveal direction="right">
-            <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">Social media diagnosis</p>
-            <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink leading-tight">
-              What is holding your accounts back?
-            </h2>
-            <p className="mt-5 text-lg text-zinc-600 leading-relaxed">
-              Most struggling social pages do not have one single problem. They usually lack a clear
-              content direction, a consistent rhythm and a team watching the results closely enough to
-              improve the next post.
-            </p>
-
-            <div className="mt-8 grid gap-3">
-              {socialProblems.map((item) => {
-                const Icon = item.icon;
+            {/* Right Column: Services 04 - 06 */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              {displayedServices.slice(3, 6).map((item, idx) => {
+                const globalIdx = idx + 3;
                 return (
-                  <div key={item.title} className="flex gap-4 rounded-2xl bg-canvas border border-line p-5 shadow-soft">
-                    <span className="mt-0.5 w-11 h-11 rounded-xl bg-brand-gold-wash text-brand-gold-hover flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-5 h-5" />
-                    </span>
-                    <div>
-                      <h3 className="font-display font-bold text-lg text-ink">{item.title}</h3>
-                      <p className="mt-1 text-sm text-zinc-600 leading-relaxed">{item.body}</p>
+                  <div
+                    key={item.id}
+                    onMouseEnter={() => {
+                      setActiveServiceIdx(globalIdx);
+                      setIsHovered(true);
+                    }}
+                    onMouseLeave={() => setIsHovered(false)}
+                    className={`group relative p-6 border-b border-white/10 hover:border-brand-yellow transition-all cursor-pointer ${
+                      activeServiceIdx === globalIdx ? 'border-brand-yellow bg-white/[0.04]' : ''
+                    }`}
+                  >
+                    <div className="flex items-baseline gap-4 mb-2">
+                      <span className="font-mono text-xs text-brand-yellow font-bold">{item.no}</span>
+                      <h3 className="font-display font-black text-lg sm:text-xl uppercase tracking-wider group-hover:text-brand-yellow transition-colors">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+                      {item.short}
+                    </p>
+                    <div className="absolute right-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ArrowUpRight className="w-4 h-4 text-brand-yellow" />
                     </div>
                   </div>
                 );
               })}
             </div>
-          </Reveal>
 
-          <Reveal direction="left">
-            <div className="relative h-full overflow-hidden rounded-[2rem] bg-ink text-white p-6 sm:p-8 shadow-soft-lg">
-              <div className="absolute -top-24 -right-20 w-80 h-80 rounded-full bg-brand-gold/20 blur-[100px] pointer-events-none" aria-hidden />
-              <div className="relative">
-                <span className="inline-flex items-center gap-2 bg-white/10 border border-white/10 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
-                  <AlertTriangle className="w-3.5 h-3.5 text-brand-gold" /> How we resolve it
-                </span>
-                <h3 className="mt-5 font-display font-bold text-2xl sm:text-3xl tracking-tight">
-                  We turn scattered posting into a managed content system.
+          </div>
+        </div>
+      </section>
+
+      {/* ============ CORE VALUES & TEXT CLIP BANNER ============ */}
+      <section className="bg-white py-24 sm:py-32 relative overflow-hidden">
+        {/* Spinning GSAP Stamp */}
+        <div className="absolute right-12 top-12 pointer-events-none hidden md:block z-10">
+          <GSAPScrollRotate rotation={360}>
+            <CircularStamp />
+          </GSAPScrollRotate>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Values Heading */}
+          <div className="max-w-3xl mb-16">
+            <span className="text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase mb-3 block">
+              Our Principles
+            </span>
+            <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight text-ink uppercase">
+              The Values Behind Every Frame.
+            </h2>
+          </div>
+
+          {/* 4-Column Grid (Slide 4 style) */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: 'CREATIVITY', body: 'CREATIVITY IS INVENTING, EXPERIMENTING, GROWING, TAKING RISKS, BREAKING RULES.' },
+              { title: 'UNIQUE', body: 'IN ORDER TO BE IRREPLACEABLE ONE, MUST ALWAYS BE DIFFERENT.' },
+              { title: 'INNOVATION', body: 'INNOVATION IS SEEING WHAT EVERYBODY HAS SEEN AND THINKING WHAT NOBODY HAS THOUGHT.' },
+              { title: 'YOUTH', body: 'MARKADEO IS A POWERFUL COLLECTIVE OF SOME OF THE YOUNGEST AND MOST INNOVATIVE MINDS.' },
+            ].map((val, idx) => (
+              <div key={val.title} className="p-6 border-l border-zinc-200 hover:border-black transition-colors">
+                <span className="font-mono text-xs text-zinc-400 font-bold block mb-4">0{idx + 1}</span>
+                <h3 className="font-display font-black text-xl text-ink uppercase tracking-wider mb-3">
+                  {val.title}
                 </h3>
-                <ul className="mt-6 space-y-4">
-                  {socialFixes.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-5 h-5 mt-0.5 text-brand-gold flex-shrink-0" />
-                      <span className="text-sm sm:text-base text-zinc-200 leading-relaxed">{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-xs leading-relaxed text-zinc-500 font-semibold tracking-wider">
+                  {val.body}
+                </p>
+              </div>
+            ))}
+          </div>
 
-                <div className="mt-8 grid sm:grid-cols-2 gap-3">
-                  <div className="rounded-2xl bg-white/[0.06] border border-white/10 p-5">
-                    <BrainCircuit className="w-6 h-6 text-brand-gold" />
-                    <p className="mt-3 font-display font-bold">AI-driven content</p>
-                    <p className="mt-1 text-sm text-zinc-400">Ideas, hooks, captions and optimisations are shaped before production starts.</p>
-                  </div>
-                  <div className="rounded-2xl bg-white/[0.06] border border-white/10 p-5">
-                    <Megaphone className="w-6 h-6 text-brand-gold" />
-                    <p className="mt-3 font-display font-bold">Paid campaigns</p>
-                    <p className="mt-1 text-sm text-zinc-400">Advertisement campaigns, ad creative, targeting and media spend are quoted separately.</p>
-                  </div>
+          {/* Massive CONTENT IS KING text clipping mask (Slide 4 style) */}
+          <div className="w-full text-center mt-20 pt-8 overflow-hidden select-none">
+            <svg viewBox="0 0 1200 300" className="w-full h-auto font-display font-black">
+              <defs>
+                <clipPath id="content-clip">
+                  <text x="50%" y="50%" textAnchor="middle" dominantBaseline="central" className="text-7xl sm:text-8xl md:text-[9.5rem] font-black uppercase tracking-tighter">
+                    CONTENT IS KING
+                  </text>
+                </clipPath>
+              </defs>
+              <foreignObject x="0" y="0" width="1200" height="300" clipPath="url(#content-clip)">
+                <video
+                  src={MEDIA.studioVideo}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              </foreignObject>
+            </svg>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ============ TALENTS & CREATORS SECTION ============ */}
+      <section className="relative bg-brand-yellow py-24 sm:py-32 overflow-hidden clip-slanted-up">
+        {/* Decorative elements */}
+        <div className="absolute -top-12 -left-20 w-44 h-44 rounded-full bg-brand-teal/20 blur-md pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-12 gap-16 items-center">
+            
+            {/* Left side: Stylish cropped model in teal container */}
+            <div className="lg:col-span-6 flex justify-center">
+              <div className="relative w-full max-w-sm aspect-square flex items-center justify-center">
+                {/* Organic teal background shape */}
+                <div className="absolute w-[92%] h-[92%] bg-brand-teal rounded-[3.5rem] rotate-6 shadow-xl" />
+                
+                {/* Model Image */}
+                <div className="relative z-10 w-[90%] h-[90%] rounded-[3rem] overflow-hidden border-[6px] border-white shadow-2xl">
+                  <img
+                    src="/assets/creative_talent.png"
+                    alt="Creative talent and creators representation"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
                 </div>
+              </div>
+            </div>
 
-                <Link to="/services" className="mt-8 inline-flex items-center justify-center gap-2 bg-brand-gold text-ink font-semibold px-6 py-3.5 rounded-full hover:bg-brand-gold-hover transition-colors shadow-gold">
-                  Fix my social media <ArrowRight className="w-4 h-4" />
+            {/* Right side: Teal organic circular statement container */}
+            <div className="lg:col-span-6 flex justify-center lg:justify-start">
+              <div className="bg-brand-teal text-white rounded-[4rem] p-10 sm:p-14 text-center max-w-md shadow-2xl flex flex-col items-center select-none">
+                <h3 className="font-display font-black text-3xl sm:text-4xl tracking-[0.1em] leading-tight mb-4 uppercase">
+                  TALENTS & CREATORS
+                </h3>
+                
+                <p className="text-xs sm:text-sm tracking-widest uppercase font-bold text-zinc-200 mb-8 leading-relaxed max-w-xs">
+                  WE CONNECT BRANDS WITH THE NEW GENERATION OF CREATIVE LEADERS AND INFLUENCERS.
+                </p>
+                
+                <Link
+                  to="/contact"
+                  className="inline-block border-2 border-white hover:bg-white hover:text-brand-teal text-white font-black tracking-widest text-xs uppercase px-8 py-4 rounded-none transition-all shadow-md"
+                >
+                  CREATIVE DECK
                 </Link>
               </div>
             </div>
-          </Reveal>
+
+          </div>
         </div>
       </section>
 
@@ -500,10 +440,10 @@ export default function Home() {
       {/* ============ TESTIMONIALS ============ */}
       <Testimonials />
 
-      {/* ============ MARQUEE ============ */}
+      {/* ============ PARTNER LOGOS MARQUEE ============ */}
       <MarqueeLogos />
 
-      {/* ============ CTA ============ */}
+      {/* ============ CALL TO ACTION SECTION ============ */}
       <CTASection />
     </>
   );

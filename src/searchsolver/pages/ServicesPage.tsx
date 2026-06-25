@@ -57,7 +57,7 @@ export default function ServicesPage() {
                   <span className="inline-flex items-center gap-2 w-12 h-12 rounded-xl bg-brand-gold-wash text-brand-gold-hover justify-center">
                     {Icon && <Icon className="w-6 h-6" />}
                   </span>
-                  <h2 className="mt-5 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink">
+                  <h2 className="mt-5 font-display font-black text-3xl sm:text-4xl tracking-tight text-ink uppercase">
                     {s.title}
                   </h2>
                   <p className="mt-4 text-lg text-zinc-600 leading-relaxed">{s.description}</p>
@@ -81,7 +81,7 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="max-w-2xl mb-12">
             <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">How we work</p>
-            <h2 className="mt-2 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink">
+            <h2 className="mt-2 font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink uppercase">
               Four steps. <Marker>One joined-up team.</Marker>
             </h2>
           </Reveal>

@@ -44,7 +44,7 @@ export function Reveal({
   duration = 0.65,
   className,
   once = true,
-  amount = 0.2,
+  amount = 0.05,
   id,
 }: {
   children: ReactNode;
@@ -53,7 +53,7 @@ export function Reveal({
   duration?: number;
   className?: string;
   once?: boolean;
-  amount?: number;
+  amount?: number | "some" | "all";
   id?: string;
 }) {
   const { x, y } = offsets[direction];
@@ -82,11 +82,11 @@ const containerVariants: Variants = {
 export function Stagger({
   children,
   className,
-  amount = 0.2,
+  amount = 0.05,
 }: {
   children: ReactNode;
   className?: string;
-  amount?: number;
+  amount?: number | "some" | "all";
 }) {
   return (
     <motion.div

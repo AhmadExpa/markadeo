@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import VideoHero from '../VideoHero';
 import CTASection from '../CTASection';
 import Tilt from '../Tilt';
-import { Reveal, Stagger, RevealItem, Marker } from '../ScrollFX';
+import { Reveal, Stagger, RevealItem, Marker, CountUp } from '../ScrollFX';
 import { MEDIA, values } from '../siteData';
 import { iconMap } from '../icons';
 
@@ -25,10 +25,10 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <Reveal direction="right">
             <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">Why we exist</p>
-            <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink leading-tight">
+            <h2 className="mt-3 font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight text-ink leading-none uppercase">
               Stop paying a premium just to <Marker>be seen.</Marker>
             </h2>
-            <div className="mt-5 space-y-4 text-lg text-zinc-600 leading-relaxed">
+            <div className="mt-5 space-y-4 text-lg text-zinc-600 leading-relaxed font-medium">
               <p>
                 Most businesses hand large sums to marketplaces and aggregators just to sell their products
                 or food — paying again and again for visibility they never keep.
@@ -68,7 +68,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="max-w-2xl mb-12">
             <p className="text-sm font-semibold text-brand-gold-hover uppercase tracking-[0.18em]">What we stand for</p>
-            <h2 className="mt-2 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink">
+            <h2 className="mt-2 font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink uppercase">
               The principles in every project.
             </h2>
           </Reveal>
@@ -80,8 +80,8 @@ export default function About() {
                   <span className="w-12 h-12 rounded-xl bg-brand-gold-wash group-hover:bg-brand-gold flex items-center justify-center text-brand-gold-hover group-hover:text-ink transition-colors">
                     {Icon && <Icon className="w-6 h-6" />}
                   </span>
-                  <h3 className="mt-5 font-display font-bold text-lg text-ink">{v.title}</h3>
-                  <p className="mt-2 text-sm text-zinc-600 leading-relaxed">{v.body}</p>
+                  <h3 className="mt-5 font-display font-black text-lg text-ink uppercase tracking-wider">{v.title}</h3>
+                  <p className="mt-2 text-sm text-zinc-600 leading-relaxed font-medium">{v.body}</p>
                 </RevealItem>
               );
             })}
@@ -93,16 +93,24 @@ export default function About() {
       <section className="py-16 sm:py-20">
         <Reveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-[2rem] bg-ink text-white p-10 sm:p-14 grid sm:grid-cols-3 gap-8 text-center">
-            {[
-              { k: 'One', v: 'studio, end to end' },
-              { k: 'Daily', v: 'content & channel management' },
-              { k: '0', v: 'sales promises — only real work' },
-            ].map((s) => (
-              <div key={s.k}>
-                <p className="font-display font-black text-4xl sm:text-5xl gold-shimmer">{s.k}</p>
-                <p className="mt-2 text-zinc-400">{s.v}</p>
-              </div>
-            ))}
+            <div>
+              <p className="font-display font-black text-4xl sm:text-5xl gold-shimmer">
+                <CountUp to={1} duration={1500} suffix=" Studio" />
+              </p>
+              <p className="mt-2 text-zinc-400 font-semibold tracking-wider text-xs uppercase">End to End Production</p>
+            </div>
+            <div>
+              <p className="font-display font-black text-4xl sm:text-5xl gold-shimmer">
+                <CountUp to={100} duration={2000} suffix="%" />
+              </p>
+              <p className="mt-2 text-zinc-400 font-semibold tracking-wider text-xs uppercase">Organic Channel Growth</p>
+            </div>
+            <div>
+              <p className="font-display font-black text-4xl sm:text-5xl gold-shimmer">
+                <CountUp to={10} duration={1800} suffix="x" />
+              </p>
+              <p className="mt-2 text-zinc-400 font-semibold tracking-wider text-xs uppercase">Average Engagement Rates</p>
+            </div>
           </div>
         </Reveal>
       </section>

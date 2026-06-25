@@ -33,8 +33,8 @@ export default function Contact() {
                   <span className="relative w-14 h-14 rounded-2xl bg-brand-gold flex items-center justify-center text-ink">
                     <MessageCircle className="w-7 h-7" />
                   </span>
-                  <h2 className="relative mt-6 font-display font-bold text-2xl">Chat on WhatsApp</h2>
-                  <p className="relative mt-2 text-zinc-300">Fastest way to reach us. Usually a reply within hours.</p>
+                  <h2 className="relative mt-6 font-display font-black text-2xl uppercase tracking-wider">Chat on WhatsApp</h2>
+                  <p className="relative mt-2 text-zinc-300 font-medium">Fastest way to reach us. Usually a reply within hours.</p>
                   <span className="relative mt-6 inline-flex items-center gap-1 font-semibold text-brand-gold">
                     Open chat <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
@@ -51,8 +51,8 @@ export default function Contact() {
                   <span className="w-14 h-14 rounded-2xl bg-brand-gold-wash flex items-center justify-center text-brand-gold-hover">
                     <Mail className="w-7 h-7" />
                   </span>
-                  <h2 className="mt-6 font-display font-bold text-2xl text-ink">Email us</h2>
-                  <p className="mt-2 text-zinc-600">{CONTACT.EMAIL}</p>
+                  <h2 className="mt-6 font-display font-black text-2xl text-ink uppercase tracking-wider">Email us</h2>
+                  <p className="mt-2 text-zinc-600 font-medium">{CONTACT.EMAIL}</p>
                   <span className="mt-6 inline-flex items-center gap-1 font-semibold text-brand-gold-hover">
                     Write to us <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>

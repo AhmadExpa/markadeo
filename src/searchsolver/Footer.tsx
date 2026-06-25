@@ -1,7 +1,4 @@
-import { Link } from 'react-router-dom';
-import { Mail, MessageCircle, Instagram, ArrowUpRight } from 'lucide-react';
-import { AestheticLogoProduct } from './AestheticLogo';
-import { services, CONTACT, waLink, mailLink, DEFAULT_WA_MESSAGE } from './siteData';
+import { Instagram } from 'lucide-react';
 
 interface FooterProps {
   onOpenLegal: (id: string) => void;
@@ -10,92 +7,42 @@ interface FooterProps {
 export default function Footer({ onOpenLegal }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
-  const pages = [
-    { label: 'Services', to: '/services' },
-    { label: 'Web & App Design', to: '/web-app-design' },
-    { label: 'Our work', to: '/work' },
-    { label: 'About us', to: '/contact' },
-  ];
-
   return (
-    <footer id="footer" className="bg-ink text-zinc-400 pt-16 pb-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mb-12">
-          {/* Brand */}
-          <div className="md:col-span-4 space-y-5">
-            <AestheticLogoProduct tone="light" />
-            <p className="text-sm leading-relaxed text-zinc-400 max-w-xs">
-              A creative content house. We get brands established on social platforms — content,
-              3D, social, branding and build — so you reach a real audience and real visits.
-            </p>
-            <a
-              href={waLink(DEFAULT_WA_MESSAGE)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-brand-gold text-ink font-semibold px-5 py-2.5 rounded-full text-sm hover:bg-brand-gold-hover transition-colors"
-            >
-              <MessageCircle className="w-4 h-4" />
-              Start a project
-            </a>
-          </div>
+    <footer id="footer" className="bg-black text-zinc-500 pt-20 pb-12 text-center select-none border-t border-zinc-900">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+        
+        {/* Large Slogan in Center */}
+        <h2 className="font-display font-black text-white text-base sm:text-lg md:text-xl tracking-[0.12em] leading-relaxed max-w-3xl mb-12 uppercase">
+          WE CREATE POWERFUL, INNOVATIVE, FUN, AND MEMORABLE CONTENT. FROM CREATIVE CONCEPTUALISATION TO PRODUCTION AND EXECUTION – WE DO IT ALL.
+        </h2>
 
-          {/* Services */}
-          <div className="md:col-span-3">
-            <h4 className="text-white font-semibold text-sm mb-4">What we do</h4>
-            <ul className="space-y-2.5 text-sm">
-              {services.map((s) => (
-                <li key={s.id}>
-                  <Link to="/services" className="hover:text-white transition-colors">{s.title}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Pages */}
-          <div className="md:col-span-2">
-            <h4 className="text-white font-semibold text-sm mb-4">Studio</h4>
-            <ul className="space-y-2.5 text-sm">
-              {pages.map((l) => (
-                <li key={l.label}><Link to={l.to} className="hover:text-white transition-colors">{l.label}</Link></li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div className="md:col-span-3">
-            <h4 className="text-white font-semibold text-sm mb-4">Get in touch</h4>
-            <ul className="space-y-4 text-sm">
-              <li className="flex items-center gap-3">
-                <MessageCircle className="w-4 h-4 text-brand-gold flex-shrink-0" />
-                <a href={waLink(DEFAULT_WA_MESSAGE)} target="_blank" rel="noopener noreferrer" className="text-zinc-200 hover:text-brand-gold transition-colors">
-                  WhatsApp us
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-brand-gold flex-shrink-0" />
-                <a href={mailLink('Project enquiry — Markadeo')} className="text-zinc-200 hover:text-brand-gold transition-colors">
-                  {CONTACT.EMAIL}
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Instagram className="w-4 h-4 text-brand-gold flex-shrink-0" />
-                <a href={CONTACT.INSTAGRAM} target="_blank" rel="noopener noreferrer" className="text-zinc-200 hover:text-brand-gold transition-colors inline-flex items-center gap-1">
-                  Follow us <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </li>
-            </ul>
-          </div>
+        {/* Centered Red Instagram Button */}
+        <div className="mb-14">
+          <a
+            href="https://instagram.com/markadeo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-14 h-14 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center transition-all shadow-lg hover:scale-110 mx-auto"
+            aria-label="Follow us on Instagram"
+          >
+            <Instagram className="w-7 h-7" />
+          </a>
         </div>
 
-        <div className="border-t border-white/10 pt-7 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <span>© {currentYear} Markadeo. All rights reserved.</span>
-            <button onClick={() => onOpenLegal('privacy')} className="hover:text-zinc-300 transition-colors cursor-pointer">Privacy</button>
-            <button onClick={() => onOpenLegal('terms')} className="hover:text-zinc-300 transition-colors cursor-pointer">Terms</button>
-            <button onClick={() => onOpenLegal('gdpr')} className="hover:text-zinc-300 transition-colors cursor-pointer">Cookies</button>
+        {/* Divider line */}
+        <div className="w-full border-t border-zinc-900 mb-8" />
+
+        {/* Footer bottom details */}
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] tracking-widest uppercase font-semibold text-zinc-600">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            <span>© {currentYear} MARKADEO MEDIA. ALL RIGHTS RESERVED.</span>
+            <button onClick={() => onOpenLegal('privacy')} className="hover:text-zinc-400 transition-colors cursor-pointer uppercase">PRIVACY</button>
+            <button onClick={() => onOpenLegal('terms')} className="hover:text-zinc-400 transition-colors cursor-pointer uppercase">TERMS</button>
+            <button onClick={() => onOpenLegal('gdpr')} className="hover:text-zinc-400 transition-colors cursor-pointer uppercase">COOKIES</button>
           </div>
-          <span>Creative content house · Worldwide</span>
+          <span>CREATIVE CONTENT HOUSE · WORLDWIDE</span>
         </div>
+
       </div>
     </footer>
   );
