@@ -11,6 +11,20 @@ export default defineConfig(() => {
         '@': path.resolve(__dirname, '.'),
       },
     },
+    build: {
+      // Split large third-party libs into their own long-cached chunks so
+      // app updates don't bust the vendor cache and the main chunk stays small.
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom', 'react-router-dom'],
+            motion: ['motion'],
+            gsap: ['gsap'],
+          },
+        },
+      },
+      chunkSizeWarningLimit: 700,
+    },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modifyâfile watching is disabled to prevent flickering during agent edits.

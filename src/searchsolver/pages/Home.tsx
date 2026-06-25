@@ -162,8 +162,11 @@ export default function Home() {
                   {/* Subtle pulsing shadow under the asset */}
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-48 h-4 bg-zinc-200/50 rounded-full blur-md opacity-70" />
                   <img
-                    src="/assets/thumbs_up_3d.png"
+                    src="/assets/thumbs_up_3d.webp"
                     alt="3D Thumbs up"
+                    width={640}
+                    height={640}
+                    decoding="async"
                     className="w-full h-full object-contain"
                   />
                 </motion.div>
@@ -402,8 +405,12 @@ export default function Home() {
                 {/* Model Image */}
                 <div className="relative z-10 w-[90%] h-[90%] rounded-[3rem] overflow-hidden border-[6px] border-white shadow-2xl">
                   <img
-                    src="/assets/creative_talent.png"
+                    src="/assets/creative_talent.webp"
                     alt="Creative talent and creators representation"
+                    width={768}
+                    height={768}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   />
                 </div>

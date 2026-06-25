@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import Preloader from './Preloader';
 import CustomCursor from './CustomCursor';
+import ErrorBoundary from './ErrorBoundary';
 import LegalModal from './LegalModal';
 import { ScrollProgress, BackToTop } from './ScrollFX';
 import WhatsAppButton from './WhatsAppButton';
@@ -47,7 +48,9 @@ export default function Layout() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
-            <Outlet context={{ openLegal: setActiveLegalId }} />
+            <ErrorBoundary key={location.pathname}>
+              <Outlet context={{ openLegal: setActiveLegalId }} />
+            </ErrorBoundary>
           </motion.div>
         </AnimatePresence>
       </main>

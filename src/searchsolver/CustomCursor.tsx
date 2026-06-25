@@ -52,7 +52,8 @@ export default function CustomCursor() {
       window.removeEventListener('mousedown', downFn);
       window.removeEventListener('mouseup', upFn);
     };
-  }, [x, y]);
+    // x/y are stable motion values — listeners are bound once on mount.
+  }, []);
 
   if (!enabled) return null;
 

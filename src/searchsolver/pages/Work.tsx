@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import VideoHero from '../VideoHero';
 import MarqueeLogos from '../MarqueeLogos';
@@ -41,42 +41,42 @@ export default function Work() {
             ))}
           </Reveal>
 
-          {/* Bento grid */}
-          <motion.div layout className="grid grid-cols-2 lg:grid-cols-4 auto-rows-[200px] sm:auto-rows-[240px] gap-4">
-            <AnimatePresence>
-              {shown.map((w) => (
-                <motion.figure
-                  key={w.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-                  className={`group relative rounded-[1.5rem] overflow-hidden border border-line shadow-soft cursor-pointer ${
-                    w.span === 'wide' ? 'col-span-2' : ''
-                  } ${w.span === 'tall' ? 'row-span-2' : ''}`}
-                >
-                  <img
-                    src={w.image}
-                    alt={w.imageAlt}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
-                  <figcaption className="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between">
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-gold">{w.category}</p>
-                      <p className="font-display font-bold text-lg text-white">{w.title}</p>
-                    </div>
-                    <span className="w-9 h-9 rounded-full bg-white/15 backdrop-blur flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
-                      <ArrowUpRight className="w-4 h-4" />
-                    </span>
-                  </figcaption>
-                </motion.figure>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+          {/* Bento grid. NOTE: no Framer `layout`/AnimatePresence projection
+              here — animating layout on a CSS grid with changing col/row
+              spans crashes mid route-transition. Items are keyed by filter so
+              they simply re-animate in on each filter change. */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 auto-rows-[200px] sm:auto-rows-[240px] gap-4">
+            {shown.map((w, i) => (
+              <motion.figure
+                key={`${filter}-${w.id}`}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: Math.min(i * 0.04, 0.3), ease: [0.21, 0.47, 0.32, 0.98] }}
+                className={`group relative rounded-[1.5rem] overflow-hidden border border-line shadow-soft cursor-pointer ${
+                  w.span === 'wide' ? 'col-span-2' : ''
+                } ${w.span === 'tall' ? 'row-span-2' : ''}`}
+              >
+                <img
+                  src={w.image}
+                  alt={w.imageAlt}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+                <figcaption className="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-gold">{w.category}</p>
+                    <p className="font-display font-bold text-lg text-white">{w.title}</p>
+                  </div>
+                  <span className="w-9 h-9 rounded-full bg-white/15 backdrop-blur flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
+                    <ArrowUpRight className="w-4 h-4" />
+                  </span>
+                </figcaption>
+              </motion.figure>
+            ))}
+          </div>
 
           <p className="text-xs text-zinc-400 mt-6">
             Representative of our craft and capabilities. Real client case studies added as projects go live.
