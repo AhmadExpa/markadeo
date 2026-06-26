@@ -1,4 +1,5 @@
 import { Instagram } from 'lucide-react';
+import { TAGLINE } from './siteData';
 
 interface FooterProps {
   onOpenLegal: (id: string) => void;
@@ -15,6 +16,11 @@ export default function Footer({ onOpenLegal }: FooterProps) {
         <h2 className="font-display font-black text-white text-base sm:text-lg md:text-xl tracking-[0.12em] leading-relaxed max-w-3xl mb-12 uppercase">
           WE CREATE POWERFUL, INNOVATIVE, FUN, AND MEMORABLE CONTENT. FROM CREATIVE CONCEPTUALISATION TO PRODUCTION AND EXECUTION – WE DO IT ALL.
         </h2>
+
+        {/* Primary tagline */}
+        <p className="font-display font-black text-brand-yellow text-sm sm:text-base tracking-[0.3em] uppercase mb-10">
+          {TAGLINE}
+        </p>
 
         {/* Centered Red Instagram Button */}
         <div className="mb-14">
@@ -40,7 +46,7 @@ export default function Footer({ onOpenLegal }: FooterProps) {
             <button onClick={() => onOpenLegal('terms')} className="hover:text-zinc-400 transition-colors cursor-pointer uppercase">TERMS</button>
             <button onClick={() => onOpenLegal('gdpr')} className="hover:text-zinc-400 transition-colors cursor-pointer uppercase">COOKIES</button>
           </div>
-          <span>CREATIVE CONTENT HOUSE · WORLDWIDE</span>
+          <span>CREATIVE DIGITAL AGENCY · WORLDWIDE</span>
         </div>
 
       </div>

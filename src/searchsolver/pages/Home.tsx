@@ -3,16 +3,21 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowRight,
-  MessageCircle,
   ArrowUpRight,
+  Check,
 } from 'lucide-react';
 import CreativeHero from '../CreativeHero';
 import Pricing from '../Pricing';
 import Testimonials from '../Testimonials';
 import MarqueeLogos from '../MarqueeLogos';
 import CTASection from '../CTASection';
+import FAQ from '../FAQ';
 import { Reveal, Stagger, RevealItem } from '../ScrollFX';
-import { waLink, DEFAULT_WA_MESSAGE, services, MEDIA } from '../siteData';
+import {
+  waLink, DEFAULT_WA_MESSAGE, services, MEDIA, TAGLINE,
+  clientsCopy, clientBrands, aboutCopy, whyChooseUs,
+  differentiators, processSteps, workItems,
+} from '../siteData';
 import { GSAPParallax, GSAPScrollRotate } from '../GSAPScrollFX';
 
 function CircularStamp() {
@@ -36,20 +41,8 @@ export default function Home() {
   const [activeServiceIdx, setActiveServiceIdx] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Extend the 5 services from siteData to include a 6th Pricing item to match Trifid's 6-item layout
-  const displayedServices = [
-    ...services,
-    {
-      id: 'pricing',
-      no: '06',
-      title: 'Pricing & ROI Plans',
-      short: 'Flexible monthly growth packages tailored for your brand.',
-      description: 'Find the ideal plan to get your brand permanently established on social media. Choose between our Essentials, Extra, and Ultra Premium packages to start growing your organic reach today.',
-      features: ['Essentials Pack', 'Extra Plan', 'Ultra Premium'],
-      image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80',
-      imageAlt: 'Team pricing models and brand strategizing.',
-    }
-  ];
+  // Render the full set of agency services in the interactive grid.
+  const displayedServices = services;
 
   // Auto-cycle service preview screens when the user is not actively hovering
   useEffect(() => {
@@ -64,10 +57,55 @@ export default function Home() {
     <>
       {/* ============ HERO SECTION ============ */}
       <CreativeHero
-        eyebrow="Creative Content House"
-        title={<>Markadeo makes brands impossible to scroll past.</>}
-        subtitle="Content, 3D, social, branding, and web builds under one roof. We turn quiet channels into a living brand system with stronger visuals, clearer rhythm, and content people actually want to watch."
-      />
+        eyebrow={TAGLINE}
+        title={<>Transform Your Business With Creative Digital Solutions</>}
+        subtitle="From branding and websites to AI-powered advertising, eCommerce growth, Amazon optimisation, and custom software development, Markadeo delivers solutions designed to generate measurable results."
+      >
+        <div className="flex flex-col sm:flex-row gap-4">
+          <a
+            href={waLink(DEFAULT_WA_MESSAGE)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-brand-yellow hover:brightness-95 text-black font-bold tracking-widest text-xs uppercase px-8 py-4 transition-all shadow-md"
+          >
+            Get Free Consultation
+            <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+          <Link
+            to="/work"
+            className="inline-flex items-center justify-center gap-2 border-2 border-white/40 hover:border-white text-white font-bold tracking-widest text-xs uppercase px-8 py-4 transition-all"
+          >
+            View Our Work
+          </Link>
+        </div>
+      </CreativeHero>
+
+      {/* ============ CLIENTS & BRANDS SECTION ============ */}
+      <section className="bg-white py-20 sm:py-24 border-b border-zinc-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal className="max-w-3xl mx-auto text-center">
+            <span className="text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase mb-3 block">
+              Clients & Brands
+            </span>
+            <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink uppercase">
+              {clientsCopy.heading}
+            </h2>
+            <p className="mt-6 text-base text-zinc-600 leading-relaxed font-medium">
+              {clientsCopy.body}
+            </p>
+          </Reveal>
+
+          <Stagger className="mt-12 flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
+            {clientBrands.map((brand) => (
+              <RevealItem key={brand}>
+                <span className="font-display font-black text-xl sm:text-2xl uppercase tracking-wider text-zinc-300 hover:text-ink transition-colors select-none">
+                  {brand}
+                </span>
+              </RevealItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
 
       {/* ============ NEW GENERATION SECTION ============ */}
       <section className="relative overflow-hidden bg-white py-24 sm:py-32">
@@ -140,6 +178,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ============ WHY CHOOSE US / GROWTH PARTNER SECTION ============ */}
+      <section className="bg-canvas py-24 sm:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <div className="lg:col-span-5">
+              <Reveal direction="right">
+                <span className="text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase mb-3 block">
+                  About Markadeo
+                </span>
+                <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink uppercase leading-[1.05]">
+                  {aboutCopy.heading}
+                </h2>
+                <p className="mt-6 text-base text-zinc-600 leading-relaxed font-medium">
+                  {aboutCopy.body}
+                </p>
+              </Reveal>
+            </div>
+
+            <div className="lg:col-span-7">
+              <Reveal direction="left">
+                <span className="text-xs font-bold tracking-[0.2em] text-brand-blue uppercase mb-6 block">
+                  Why Choose Us
+                </span>
+                <Stagger className="grid sm:grid-cols-2 gap-4">
+                  {whyChooseUs.map((reason) => (
+                    <RevealItem key={reason}>
+                      <div className="flex items-center gap-3 bg-white border border-line rounded-2xl p-5 shadow-soft h-full">
+                        <span className="w-9 h-9 rounded-xl bg-brand-blue/10 flex items-center justify-center text-brand-blue flex-shrink-0">
+                          <Check className="w-5 h-5" />
+                        </span>
+                        <span className="font-semibold text-sm sm:text-base text-ink">
+                          {reason}
+                        </span>
+                      </div>
+                    </RevealItem>
+                  ))}
+                </Stagger>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ============ INTERACTIVE SERVICES SECTION ============ */}
       <section className="relative bg-brand-blue text-white clip-slanted-both py-28 sm:py-36 overflow-hidden">
         {/* Subtle decorative background line */}
@@ -168,9 +249,9 @@ export default function Home() {
           {/* Interactive grid */}
           <div className="grid lg:grid-cols-12 gap-10 items-center">
             
-            {/* Left Column: Services 01 - 03 */}
+            {/* Left Column: Services 01 - 04 */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              {displayedServices.slice(0, 3).map((item, idx) => (
+              {displayedServices.slice(0, 4).map((item, idx) => (
                 <div
                   key={item.id}
                   onMouseEnter={() => {
@@ -248,10 +329,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Services 04 - 06 */}
+            {/* Right Column: Services 05 - 08 */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              {displayedServices.slice(3, 6).map((item, idx) => {
-                const globalIdx = idx + 3;
+              {displayedServices.slice(4, 8).map((item, idx) => {
+                const globalIdx = idx + 4;
                 return (
                   <div
                     key={item.id}
@@ -352,6 +433,68 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ============ WHY MARKADEO IS DIFFERENT SECTION ============ */}
+      <section className="bg-ink text-white py-24 sm:py-32 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mb-16">
+            <span className="text-xs font-bold tracking-[0.2em] text-brand-yellow uppercase mb-3 block">
+              Why Markadeo Is Different
+            </span>
+            <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight uppercase leading-[1.05]">
+              More Than An Agency — A Growth Partner
+            </h2>
+          </div>
+
+          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {differentiators.map((d, idx) => (
+              <RevealItem key={d.title}>
+                <div className="h-full p-7 rounded-2xl border border-white/10 bg-white/[0.03] hover:border-brand-yellow/60 hover:bg-white/[0.06] transition-all">
+                  <span className="font-mono text-xs text-brand-yellow font-bold block mb-4">
+                    0{idx + 1}
+                  </span>
+                  <h3 className="font-display font-black text-xl uppercase tracking-wide mb-3">
+                    {d.title}
+                  </h3>
+                  <p className="text-sm text-zinc-400 leading-relaxed font-medium">
+                    {d.body}
+                  </p>
+                </div>
+              </RevealItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* ============ PROCESS SECTION ============ */}
+      <section className="bg-white py-24 sm:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase mb-3 block">
+              How We Work
+            </span>
+            <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight text-ink uppercase">
+              Our Proven Process
+            </h2>
+            <div className="w-12 h-1 bg-brand-blue mx-auto mt-6" />
+          </div>
+
+          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-200 border border-zinc-200">
+            {processSteps.map((step) => (
+              <RevealItem key={step.no}>
+                <div className="h-full bg-white p-8 group hover:bg-canvas transition-colors">
+                  <span className="font-display font-black text-5xl text-zinc-200 group-hover:text-brand-blue transition-colors block mb-4">
+                    {step.no}
+                  </span>
+                  <h3 className="font-display font-black text-lg sm:text-xl text-ink uppercase tracking-wide">
+                    {step.title}
+                  </h3>
+                </div>
+              </RevealItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
       {/* ============ TALENTS & CREATORS SECTION ============ */}
       <section className="relative bg-brand-yellow py-24 sm:py-32 overflow-hidden clip-slanted-up">
         {/* Decorative elements */}
@@ -405,17 +548,78 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ============ FEATURED PROJECTS SECTION ============ */}
+      <section className="bg-canvas py-24 sm:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal className="max-w-3xl mb-14">
+            <span className="text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase mb-3 block">
+              Portfolio
+            </span>
+            <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight text-ink uppercase">
+              Featured Projects
+            </h2>
+            <p className="mt-6 text-base text-zinc-600 leading-relaxed font-medium">
+              Explore our latest creative, digital, eCommerce, Amazon, and software development projects that have helped businesses achieve measurable growth.
+            </p>
+          </Reveal>
+
+          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {workItems.slice(0, 6).map((item) => (
+              <RevealItem key={item.id}>
+                <div className="group relative overflow-hidden rounded-2xl aspect-[4/3] shadow-soft">
+                  <img
+                    src={item.image}
+                    alt={item.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-5">
+                    <span className="text-[10px] font-bold tracking-widest text-brand-yellow uppercase">
+                      {item.category}
+                    </span>
+                    <h3 className="font-display font-black text-white text-lg uppercase tracking-wide leading-tight mt-1">
+                      {item.title}
+                    </h3>
+                  </div>
+                </div>
+              </RevealItem>
+            ))}
+          </Stagger>
+
+          <div className="mt-12 text-center">
+            <Link
+              to="/work"
+              className="inline-flex items-center gap-2 bg-black hover:bg-zinc-900 text-white font-bold tracking-widest text-xs uppercase px-8 py-4 transition-all shadow-md"
+            >
+              View Full Portfolio
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ============ PRICING ============ */}
       <Pricing />
 
       {/* ============ TESTIMONIALS ============ */}
       <Testimonials />
 
+      {/* ============ FAQ SECTION ============ */}
+      <FAQ />
+
       {/* ============ PARTNER LOGOS MARQUEE ============ */}
       <MarqueeLogos />
 
       {/* ============ CALL TO ACTION SECTION ============ */}
-      <CTASection />
+      <CTASection
+        eyebrow="Let's talk"
+        title="Ready To Grow Your Business?"
+        body="Let's create a digital strategy that drives measurable growth and helps your business stand out in a competitive market."
+        waLabel="Book A Free Consultation"
+        mailLabel="Get A Custom Proposal"
+      />
     </>
   );
 }

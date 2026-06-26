@@ -1,13 +1,18 @@
 /* ==================================================================
    siteData.ts — single source of truth for the whole Markadeo site.
 
-   Markadeo is a creative content house: we get brands established on
-   social platforms so they reach a real audience and real visits —
-   for a fraction of what marketplaces charge to sell for them.
+   Markadeo is a full-service creative digital agency — branding &
+   print, websites, WordPress, Shopify/eCommerce, Amazon creatives,
+   TikTok & AI video, and custom software — delivering solutions
+   designed to generate measurable results. Tagline: Design. Develop.
+   Dominate.
 
    NOTE: contact details are PLACEHOLDERS. Swap WHATSAPP_NUMBER and
    EMAIL below for the real values. waLink()/mailLink() build the URLs.
    ================================================================== */
+
+/* Brand tagline — surfaced in the hero eyebrow and footer. */
+export const TAGLINE = 'Design. Develop. Dominate.';
 
 export const CONTACT = {
   /* Digits only, full international format, NO +, spaces or dashes.
@@ -30,7 +35,7 @@ export function mailLink(subject?: string): string {
 }
 
 export const DEFAULT_WA_MESSAGE =
-  "Hi Markadeo — I'd like to talk about getting my brand established on social.";
+  "Hi Markadeo — I'd like a free consultation about growing my business with creative digital solutions.";
 
 /* ------------------------------------------------------------------
    Navigation — multi-page, Trifid-style (no "Club").
@@ -67,7 +72,9 @@ export const MEDIA = {
 } as const;
 
 /* ------------------------------------------------------------------
-   Services — content-house, Trifid-aligned (6 numbered tiles).
+   Services — full-service agency (8 numbered service areas).
+   Mirrors the Markadeo service spec: short = the section "Heading",
+   description = the "Content", features = the "Services" bullets.
 ------------------------------------------------------------------ */
 export interface Service {
   id: string;
@@ -83,65 +90,183 @@ export interface Service {
 
 export const services: Service[] = [
   {
-    id: 'content',
+    id: 'print',
     no: '01',
-    title: 'Content Production & 3D',
-    icon: 'Clapperboard',
-    short: 'AI-powered concepts, films, photography and 3D, made in-house.',
+    title: 'Digital & Print Media',
+    icon: 'PenTool',
+    short: 'Creative Design That Builds Strong Brands',
     description:
-      'From concept to final cut — we use AI-driven research, ideation and creative planning, then shoot, edit and render the kind of content that stops the scroll. Cinematic brand films, product photography, motion graphics and full 3D animation, all produced under one roof.',
-    features: ['AI-driven ideas & scripts', 'Brand films & product video', '3D animation & motion graphics', 'Photography & retouching'],
-    image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1400&q=80',
-    imageAlt: 'A creative film production set with cameras and lighting.',
-  },
-  {
-    id: 'social',
-    no: '02',
-    title: 'Social Media Management',
-    icon: 'Instagram',
-    short: 'AI-driven planning and always-on channels for a real audience.',
-    description:
-      "We run your social presence end to end — AI-assisted strategy, content calendars, daily posting, community management and reporting. The goal is simple: get your brand genuinely established on the platforms, so you grow a real audience and real visits instead of renting reach.",
-    features: ['AI-assisted strategy & calendar', 'Daily posting & stories', 'Community & DM management', 'Plain-English reporting'],
-    image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1400&q=80',
-    imageAlt: 'A phone showing a vibrant social media feed.',
-  },
-  {
-    id: 'tiktok',
-    no: '03',
-    title: 'TikTok & Short-Form',
-    icon: 'Sparkles',
-    short: 'Native short-form built to be watched, shared and searched.',
-    description:
-      'Short-form is where attention lives. We use AI-assisted trend research, hook testing and caption direction to create native TikTok, Reels and Shorts — series designed to travel — and manage the channel so your brand becomes part of the conversation.',
-    features: ['Short-form content series', 'AI-assisted trend research', 'Creator-style editing', 'Channel growth & posting'],
-    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1400&q=80',
-    imageAlt: 'A creator filming a short-form video on a smartphone.',
-  },
-  {
-    id: 'branding',
-    no: '04',
-    title: 'Branding & Design',
-    icon: 'Palette',
-    short: 'Identity systems that make you impossible to ignore.',
-    description:
-      'A brand is more than a logo. We build complete identity systems — naming, logo, type, colour, art direction and guidelines — so every piece of content looks unmistakably, consistently you.',
-    features: ['Logo & identity systems', 'Art direction & guidelines', 'Packaging & print', 'Campaign creative'],
+      'Our design team creates impactful visual experiences that strengthen your brand identity across digital and print platforms. We ensure consistency, professionalism, and creativity in every touchpoint.',
+    features: ['Logo Design', 'Brand Identity', 'Social Media Graphics', 'Marketing Materials', 'Packaging Design', 'Brochures & Flyers', 'Business Cards', 'Large Format Printing'],
     image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1400&q=80',
     imageAlt: 'A brand design moodboard with colour swatches and type.',
   },
   {
     id: 'web',
-    no: '05',
-    title: 'Web & App Design',
-    icon: 'MonitorSmartphone',
-    short: 'From design to execution — fast, beautiful, conversion-ready.',
+    no: '02',
+    title: 'Website Design & Development',
+    icon: 'Globe',
+    short: 'High-Converting Websites Built For Growth',
     description:
-      'We design and build websites and apps that feel as good as your content looks. User-friendly, lightning-fast and crafted from first sketch to live deployment — the digital home your audience lands on.',
-    features: ['Websites & landing pages', 'Mobile & web apps', 'UX/UI design', 'Build & deployment'],
+      'Your website should do more than look great — it should generate leads and sales. We design and develop modern, responsive websites that deliver exceptional user experiences and measurable business results.',
+    features: ['Corporate Websites', 'Business Websites', 'Landing Pages', 'Portfolio Websites', 'Custom Web Applications', 'Website Maintenance'],
     image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1400&q=80',
     imageAlt: 'A laptop and phone showing a sleek website design.',
   },
+  {
+    id: 'wordpress',
+    no: '03',
+    title: 'WordPress Development',
+    icon: 'Layout',
+    short: 'Flexible WordPress Solutions',
+    description:
+      'We build scalable WordPress websites designed for speed, security, and conversions. Whether you need a business website or a custom solution, our developers create experiences that perform.',
+    features: ['Business Websites', 'Custom Themes', 'Speed & Security', 'Plugin Integration'],
+    image: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1400&q=80',
+    imageAlt: 'A WordPress website being built on screen.',
+  },
+  {
+    id: 'ecommerce',
+    no: '04',
+    title: 'Shopify & eCommerce Solutions',
+    icon: 'ShoppingBag',
+    short: 'Sell More With Powerful eCommerce Stores',
+    description:
+      'We create conversion-focused Shopify and WooCommerce stores that help businesses maximize sales and improve customer experience.',
+    features: ['Shopify Store Design', 'Shopify Development', 'WooCommerce Development', 'Product Uploads', 'Payment Integration', 'Conversion Optimisation'],
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1400&q=80',
+    imageAlt: 'An online store displayed on a laptop.',
+  },
+  {
+    id: 'amazon',
+    no: '05',
+    title: 'Amazon Creative Services',
+    icon: 'Package',
+    short: 'Maximise Your Amazon Sales Potential',
+    description:
+      'Our Amazon experts help brands stand out with professional listing optimisation and premium visual content that improves conversion rates and customer trust.',
+    features: ['Amazon Listing Images', 'A+ Content', 'Amazon Storefront Design', 'Product Infographics', 'Brand Story Design', 'Product Photography Editing'],
+    image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1400&q=80',
+    imageAlt: 'Product packages prepared for online marketplace listing.',
+  },
+  {
+    id: 'tiktok',
+    no: '06',
+    title: 'TikTok Ads & Video Production',
+    icon: 'Video',
+    short: 'Content Designed To Stop The Scroll',
+    description:
+      'Capture attention with engaging TikTok and social media videos created specifically for modern audiences. Our creatives combine storytelling with performance marketing principles to drive engagement and conversions.',
+    features: ['TikTok Video Ads', 'UGC Style Ads', 'Product Demonstrations', 'Social Media Reels', 'Promotional Videos'],
+    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1400&q=80',
+    imageAlt: 'A creator filming a short-form video on a smartphone.',
+  },
+  {
+    id: 'ai',
+    no: '07',
+    title: 'AI Ads & AI Videos',
+    icon: 'Wand2',
+    short: 'Future-Ready AI-Powered Marketing',
+    description:
+      'Leverage artificial intelligence to produce high-quality ad creatives, promotional videos, product showcases, and branded content faster and more efficiently than traditional production methods.',
+    features: ['AI Video Ads', 'AI Product Videos', 'AI Influencer Content', 'AI Voiceovers', 'AI Commercial Production'],
+    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1400&q=80',
+    imageAlt: 'Abstract AI-generated visual content.',
+  },
+  {
+    id: 'software',
+    no: '08',
+    title: 'Software Development',
+    icon: 'Code',
+    short: 'Custom Software Built Around Your Business',
+    description:
+      'We develop tailored software solutions that improve productivity, automate workflows, and support business growth. Our solutions are designed to solve real operational challenges and create long-term value.',
+    features: ['CRM Systems', 'ERP Solutions', 'SaaS Applications', 'Mobile Apps', 'Custom Portals', 'API Integrations', 'Business Automation'],
+    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1400&q=80',
+    imageAlt: 'A developer writing code on a laptop.',
+  },
+];
+
+/* ------------------------------------------------------------------
+   Clients & Brands section copy.
+------------------------------------------------------------------ */
+export const clientsCopy = {
+  heading: 'Trusted By Ambitious Brands',
+  body: 'Businesses choose Markadeo because we combine creativity, technology, and performance marketing to help brands stand out in competitive markets. From startups to established companies, we create solutions that drive visibility, engagement, and growth.',
+} as const;
+
+/* ------------------------------------------------------------------
+   About — "Your Growth Partner" + Why Choose Us bullets.
+------------------------------------------------------------------ */
+export const aboutCopy = {
+  heading: 'Your Growth Partner In The Digital World',
+  body: "Markadeo is a creative agency helping businesses establish, grow, and scale their digital presence. Our team combines innovative design, strategic marketing, cutting-edge AI technology, and custom software solutions to create powerful customer experiences. Whether you're launching a new brand, growing your online store, or automating operations, we provide solutions tailored to your business goals.",
+} as const;
+
+export const whyChooseUs: string[] = [
+  'Results-Driven Approach',
+  'Dedicated Project Managers',
+  'UK Market Expertise',
+  'AI-Powered Creative Production',
+  'Transparent Communication',
+  'Long-Term Growth Strategies',
+];
+
+/* ------------------------------------------------------------------
+   Why Markadeo Is Different — value propositions.
+------------------------------------------------------------------ */
+export const differentiators: { title: string; body: string }[] = [
+  { title: 'Strategy First', body: 'Every project begins with understanding your business goals.' },
+  { title: 'Creative Meets Technology', body: 'We combine design excellence with technical expertise.' },
+  { title: 'AI-Powered Innovation', body: 'Faster production without compromising quality.' },
+  { title: 'Conversion-Focused Approach', body: 'Every design and campaign is built to generate results.' },
+  { title: 'End-To-End Solutions', body: 'One partner for design, development, marketing, and software.' },
+  { title: 'Dedicated Support', body: 'Long-term collaboration and ongoing optimisation.' },
+];
+
+/* ------------------------------------------------------------------
+   Our Proven Process — 6 steps.
+------------------------------------------------------------------ */
+export const processSteps: { no: string; title: string }[] = [
+  { no: '01', title: 'Discover & Strategy' },
+  { no: '02', title: 'Planning & Research' },
+  { no: '03', title: 'Creative Development' },
+  { no: '04', title: 'Implementation' },
+  { no: '05', title: 'Testing & Optimisation' },
+  { no: '06', title: 'Launch & Growth' },
+];
+
+/* ------------------------------------------------------------------
+   FAQ — frequently asked questions.
+------------------------------------------------------------------ */
+export const faqs: { q: string; a: string }[] = [
+  { q: 'What services does Markadeo offer?', a: 'We provide web design, Shopify & WordPress development, Amazon creatives, digital marketing, AI content creation, branding, and custom software solutions.' },
+  { q: 'Do you work with startups and established businesses?', a: 'Yes, we work with businesses of all sizes, from startups to large enterprises.' },
+  { q: 'How long does a website project take?', a: 'Most websites are completed within 2–6 weeks, depending on the project scope.' },
+  { q: 'Do you build Shopify stores?', a: 'Yes, we design and develop high-converting Shopify and WooCommerce stores.' },
+  { q: 'Can you redesign my existing website?', a: 'Absolutely. We can refresh, optimise, or completely rebuild your current website.' },
+  { q: 'Do you create Amazon A+ Content?', a: 'Yes, we design Amazon listing images, A+ Content, Brand Stories, and Storefronts.' },
+  { q: 'Do you create TikTok and social media ads?', a: 'Yes, we produce engaging TikTok ads, reels, and social media video content.' },
+  { q: 'What are AI-powered ads?', a: 'AI-powered ads use advanced technology to create high-quality videos, visuals, and marketing content faster and more efficiently.' },
+  { q: 'Do you offer custom software development?', a: 'Yes, we build custom CRM systems, SaaS platforms, web applications, and business automation tools.' },
+  { q: 'Will my website be mobile-friendly?', a: 'Yes, every website we create is fully responsive across all devices.' },
+  { q: 'Do you provide ongoing support?', a: 'Yes, we offer maintenance, updates, and technical support after launch.' },
+  { q: 'Is SEO included in your websites?', a: 'Yes, all websites are built with SEO best practices in mind.' },
+  { q: 'Can you help improve my online sales?', a: 'Yes, we focus on creating conversion-driven solutions that help increase leads and sales.' },
+  { q: 'Do you offer free consultations?', a: 'Yes, we provide a free consultation to discuss your goals and requirements.' },
+  { q: 'Why choose Markadeo?', a: 'Because we combine creativity, technology, and strategy to deliver solutions that help businesses grow.' },
+];
+
+/* ------------------------------------------------------------------
+   Contact form — project budget options for the enquiry form.
+------------------------------------------------------------------ */
+export const budgetOptions: string[] = [
+  'Under £1,000',
+  '£1,000 – £5,000',
+  '£5,000 – £10,000',
+  '£10,000 – £25,000',
+  '£25,000+',
+  'Not sure yet',
 ];
 
 /* ------------------------------------------------------------------

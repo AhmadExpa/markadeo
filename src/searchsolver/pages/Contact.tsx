@@ -1,9 +1,16 @@
 import { motion } from 'motion/react';
-import { MessageCircle, Mail, Instagram, ArrowUpRight, Clapperboard } from 'lucide-react';
+import { MessageCircle, Mail, Instagram, ArrowUpRight, Clapperboard, Clock } from 'lucide-react';
 import VideoHero from '../VideoHero';
 import Tilt from '../Tilt';
+import ContactForm from '../ContactForm';
 import { Reveal, Stagger, RevealItem } from '../ScrollFX';
 import { MEDIA, CONTACT, services, waLink, mailLink, DEFAULT_WA_MESSAGE } from '../siteData';
+
+const businessHours = [
+  { day: 'Monday – Friday', hours: '9:00 – 18:00' },
+  { day: 'Saturday', hours: '10:00 – 16:00' },
+  { day: 'Sunday', hours: 'Closed' },
+];
 
 export default function Contact() {
   return (
@@ -13,9 +20,58 @@ export default function Contact() {
         poster="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=80"
         height="short"
         eyebrow="Get in touch"
-        title="Let’s make something."
-        subtitle="No forms to fill, no waiting on a quote. Message us directly and tell us about your brand — we’ll take it from there."
+        title="Let’s Build Something Extraordinary"
+        subtitle="Tell us about your project and we’ll shape the direction. Fill in the form below or message us directly — whichever is easiest."
       />
+
+      {/* Enquiry form + details */}
+      <section className="py-16 sm:py-24 bg-canvas">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-8 items-start">
+            <Reveal direction="right" className="lg:col-span-7">
+              <ContactForm />
+            </Reveal>
+
+            <div className="lg:col-span-5 flex flex-col gap-5">
+              <Reveal direction="left">
+                <div className="rounded-2xl bg-white border border-line p-6 shadow-soft">
+                  <span className="flex items-center gap-3 mb-4">
+                    <span className="w-10 h-10 rounded-xl bg-brand-gold-wash flex items-center justify-center text-brand-gold-hover">
+                      <Clock className="w-5 h-5" />
+                    </span>
+                    <span className="font-display font-black text-lg text-ink uppercase tracking-wider">Business Hours</span>
+                  </span>
+                  <ul className="space-y-2">
+                    {businessHours.map((b) => (
+                      <li key={b.day} className="flex items-center justify-between text-sm">
+                        <span className="text-zinc-600 font-medium">{b.day}</span>
+                        <span className="text-ink font-semibold">{b.hours}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+
+              <Reveal direction="left">
+                <div className="rounded-2xl bg-white border border-line p-6 shadow-soft">
+                  <span className="font-display font-black text-lg text-ink uppercase tracking-wider block mb-4">Follow Us</span>
+                  <div className="flex flex-wrap gap-3">
+                    <a href={CONTACT.INSTAGRAM} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm font-medium text-zinc-700 hover:text-ink hover:border-brand-gold/60 transition-colors">
+                      <Instagram className="w-4 h-4" /> Instagram
+                    </a>
+                    <a href={CONTACT.TIKTOK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm font-medium text-zinc-700 hover:text-ink hover:border-brand-gold/60 transition-colors">
+                      <Clapperboard className="w-4 h-4" /> TikTok
+                    </a>
+                    <a href={waLink(DEFAULT_WA_MESSAGE)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm font-medium text-zinc-700 hover:text-ink hover:border-brand-gold/60 transition-colors">
+                      <MessageCircle className="w-4 h-4" /> WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="py-16 sm:py-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

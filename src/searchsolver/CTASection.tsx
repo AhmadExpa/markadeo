@@ -13,12 +13,16 @@ export default function CTASection({
   body = 'Sharper AI-driven content, faster production and a cleaner rhythm across the channels that matter. Tell us what you need and we’ll shape the direction; paid ad campaigns can be scoped separately.',
   waMessage = DEFAULT_WA_MESSAGE,
   mailSubject = 'New project enquiry — Markadeo',
+  waLabel = 'Chat on WhatsApp',
+  mailLabel = 'Email us',
 }: {
   eyebrow?: string;
   title?: string;
   body?: string;
   waMessage?: string;
   mailSubject?: string;
+  waLabel?: string;
+  mailLabel?: string;
 }) {
   return (
     <section className="py-20 sm:py-24">
@@ -45,7 +49,7 @@ export default function CTASection({
                   className="group inline-flex items-center justify-center gap-2 bg-brand-gold hover:bg-brand-gold-hover text-ink font-semibold px-7 py-4 rounded-full transition-colors cursor-pointer shadow-gold"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  Chat on WhatsApp
+                  {waLabel}
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </motion.a>
               </Magnetic>
@@ -56,7 +60,7 @@ export default function CTASection({
                 className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white font-semibold px-7 py-4 rounded-full transition-colors cursor-pointer border border-white/15"
               >
                 <Mail className="w-4 h-4" />
-                Email us
+                {mailLabel}
               </motion.a>
             </div>
           </div>
