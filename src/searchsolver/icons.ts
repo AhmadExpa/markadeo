@@ -2,6 +2,7 @@ import {
   Clapperboard, Instagram, Sparkles, Palette, MonitorSmartphone,
   Lightbulb, Fingerprint, Rocket, Heart,
   PenTool, Globe, Layout, ShoppingBag, Package, Video, Wand2, Code,
+  Target, UserCheck, MapPin, MessagesSquare, TrendingUp,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -24,4 +25,9 @@ export const iconMap: Record<string, LucideIcon> = {
   Video,
   Wand2,
   Code,
+  Target,
+  UserCheck,
+  MapPin,
+  MessagesSquare,
+  TrendingUp,
 };

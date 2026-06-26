@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowRight,
   ArrowUpRight,
-  Check,
 } from 'lucide-react';
 import CreativeHero from '../CreativeHero';
 import Pricing from '../Pricing';
@@ -15,9 +14,10 @@ import FAQ from '../FAQ';
 import { Reveal, Stagger, RevealItem } from '../ScrollFX';
 import {
   waLink, DEFAULT_WA_MESSAGE, services, MEDIA, TAGLINE,
-  clientsCopy, clientBrands, aboutCopy, whyChooseUs,
+  aboutCopy, whyChooseUs,
   differentiators, processSteps, workItems,
 } from '../siteData';
+import { iconMap } from '../icons';
 import { GSAPParallax, GSAPScrollRotate } from '../GSAPScrollFX';
 
 function CircularStamp() {
@@ -79,33 +79,6 @@ export default function Home() {
           </Link>
         </div>
       </CreativeHero>
-
-      {/* ============ CLIENTS & BRANDS SECTION ============ */}
-      <section className="bg-white py-20 sm:py-24 border-b border-zinc-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="max-w-3xl mx-auto text-center">
-            <span className="text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase mb-3 block">
-              Clients & Brands
-            </span>
-            <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink uppercase">
-              {clientsCopy.heading}
-            </h2>
-            <p className="mt-6 text-base text-zinc-600 leading-relaxed font-medium">
-              {clientsCopy.body}
-            </p>
-          </Reveal>
-
-          <Stagger className="mt-12 flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
-            {clientBrands.map((brand) => (
-              <RevealItem key={brand}>
-                <span className="font-display font-black text-xl sm:text-2xl uppercase tracking-wider text-zinc-300 hover:text-ink transition-colors select-none">
-                  {brand}
-                </span>
-              </RevealItem>
-            ))}
-          </Stagger>
-        </div>
-      </section>
 
       {/* ============ NEW GENERATION SECTION ============ */}
       <section className="relative overflow-hidden bg-white py-24 sm:py-32">
@@ -202,18 +175,25 @@ export default function Home() {
                   Why Choose Us
                 </span>
                 <Stagger className="grid sm:grid-cols-2 gap-4">
-                  {whyChooseUs.map((reason) => (
-                    <RevealItem key={reason}>
-                      <div className="flex items-center gap-3 bg-white border border-line rounded-2xl p-5 shadow-soft h-full">
-                        <span className="w-9 h-9 rounded-xl bg-brand-blue/10 flex items-center justify-center text-brand-blue flex-shrink-0">
-                          <Check className="w-5 h-5" />
-                        </span>
-                        <span className="font-semibold text-sm sm:text-base text-ink">
-                          {reason}
-                        </span>
-                      </div>
-                    </RevealItem>
-                  ))}
+                  {whyChooseUs.map((item) => {
+                    const Icon = iconMap[item.icon];
+                    return (
+                      <RevealItem key={item.label}>
+                        <motion.div
+                          whileHover={{ y: -4 }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                          className="group flex items-center gap-4 bg-white border border-line rounded-2xl p-5 shadow-soft hover:shadow-soft-lg hover:border-brand-blue transition-colors h-full cursor-default"
+                        >
+                          <span className="w-11 h-11 rounded-xl bg-brand-blue/10 group-hover:bg-brand-blue flex items-center justify-center text-brand-blue group-hover:text-white flex-shrink-0 transition-colors duration-300 group-hover:scale-110">
+                            {Icon && <Icon className="w-5 h-5" />}
+                          </span>
+                          <span className="font-semibold text-sm sm:text-base text-ink">
+                            {item.label}
+                          </span>
+                        </motion.div>
+                      </RevealItem>
+                    );
+                  })}
                 </Stagger>
               </Reveal>
             </div>
@@ -407,7 +387,8 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Massive CONTENT IS KING text clipping mask (Slide 4 style) */}
+          {/* Massive CONTENT IS KING text — video-filled letters with a
+              crisp dark outline so the words stay readable (Slide 4 style) */}
           <div className="w-full text-center mt-20 pt-8 overflow-hidden select-none">
             <svg viewBox="0 0 1200 300" className="w-full h-auto font-display font-black">
               <defs>
@@ -427,6 +408,17 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
               </foreignObject>
+              {/* Outline overlay — same glyphs, no fill, dark stroke for legibility */}
+              <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="central"
+                className="text-7xl sm:text-8xl md:text-[9.5rem] font-black uppercase tracking-tighter"
+                style={{ fill: 'none', stroke: '#14110F', strokeWidth: 2.5, paintOrder: 'stroke' }}
+              >
+                CONTENT IS KING
+              </text>
             </svg>
           </div>
 

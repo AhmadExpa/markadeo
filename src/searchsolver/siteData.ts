@@ -203,13 +203,13 @@ export const aboutCopy = {
   body: "Markadeo is a creative agency helping businesses establish, grow, and scale their digital presence. Our team combines innovative design, strategic marketing, cutting-edge AI technology, and custom software solutions to create powerful customer experiences. Whether you're launching a new brand, growing your online store, or automating operations, we provide solutions tailored to your business goals.",
 } as const;
 
-export const whyChooseUs: string[] = [
-  'Results-Driven Approach',
-  'Dedicated Project Managers',
-  'UK Market Expertise',
-  'AI-Powered Creative Production',
-  'Transparent Communication',
-  'Long-Term Growth Strategies',
+export const whyChooseUs: { label: string; icon: string }[] = [
+  { label: 'Results-Driven Approach', icon: 'Target' },
+  { label: 'Dedicated Project Managers', icon: 'UserCheck' },
+  { label: 'UK Market Expertise', icon: 'MapPin' },
+  { label: 'AI-Powered Creative Production', icon: 'Sparkles' },
+  { label: 'Transparent Communication', icon: 'MessagesSquare' },
+  { label: 'Long-Term Growth Strategies', icon: 'TrendingUp' },
 ];
 
 /* ------------------------------------------------------------------
