@@ -39,7 +39,7 @@ export default function Layout() {
 
       <Navbar />
 
-      <main className="relative overflow-x-clip">
+      <main className="relative overflow-x-clip min-h-screen">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}

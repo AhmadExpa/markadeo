@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowRight,
   ArrowUpRight,
+  ThumbsUp,
 } from 'lucide-react';
 import CreativeHero from '../CreativeHero';
 import Pricing from '../Pricing';
@@ -121,24 +122,58 @@ export default function Home() {
               </Reveal>
             </div>
 
-            {/* Right column: Floating 3D thumbs-up image */}
+            {/* Right column: Floating 3D "Like" button element */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <Reveal direction="left">
                 <motion.div
-                  animate={{ y: [0, -15, 0] }}
+                  animate={{ y: [0, -16, 0] }}
                   transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-                  className="relative w-64 h-64 sm:w-80 sm:h-80 select-none pointer-events-none"
+                  className="relative w-64 h-64 sm:w-80 sm:h-80 select-none"
+                  style={{ perspective: 1000 }}
                 >
-                  {/* Subtle pulsing shadow under the asset */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-48 h-4 bg-zinc-200/50 rounded-full blur-md opacity-70" />
-                  <img
-                    src="/assets/thumbs_up_3d.webp"
-                    alt="3D Thumbs up"
-                    width={640}
-                    height={640}
-                    decoding="async"
-                    className="w-full h-full object-contain"
+                  {/* Soft ground shadow */}
+                  <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-44 h-5 bg-zinc-900/15 rounded-full blur-xl" />
+
+                  {/* Pulsing halo ring */}
+                  <motion.div
+                    animate={{ scale: [1, 1.18, 1], opacity: [0.5, 0, 0.5] }}
+                    transition={{ repeat: Infinity, duration: 2.8, ease: 'easeOut' }}
+                    className="absolute inset-0 m-auto w-48 h-48 sm:w-56 sm:h-56 rounded-[2.75rem] border-2 border-brand-yellow/60"
                   />
+
+                  {/* 3D Like button body */}
+                  <motion.div
+                    animate={{ rotateZ: [-4, 4, -4] }}
+                    transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
+                    className="absolute inset-0 m-auto w-48 h-48 sm:w-56 sm:h-56 rounded-[2.75rem] flex items-center justify-center"
+                    style={{
+                      background: 'linear-gradient(145deg, #FFD64D 0%, #FFBC00 55%, #E69E00 100%)',
+                      boxShadow:
+                        '0 28px 50px -12px rgba(230,158,0,0.55), inset 0 4px 8px rgba(255,255,255,0.55), inset 0 -10px 18px rgba(180,120,0,0.45)',
+                      transform: 'rotateX(14deg) rotateY(-14deg)',
+                    }}
+                  >
+                    {/* Glossy top highlight */}
+                    <div className="absolute top-3 left-4 right-10 h-14 rounded-full bg-white/40 blur-md" />
+
+                    <ThumbsUp
+                      className="w-24 h-24 sm:w-28 sm:h-28 text-white drop-shadow-[0_6px_10px_rgba(140,95,0,0.55)] -rotate-6"
+                      strokeWidth={2}
+                      fill="currentColor"
+                    />
+                  </motion.div>
+
+                  {/* Floating notification count badge */}
+                  <motion.div
+                    animate={{ y: [0, -8, 0], scale: [1, 1.06, 1] }}
+                    transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+                    className="absolute top-6 right-4 sm:right-8 z-10 flex items-center gap-1.5 bg-white rounded-full pl-2.5 pr-3 py-2 shadow-[0_12px_28px_-8px_rgba(0,0,0,0.35)] border border-zinc-100"
+                  >
+                    <span className="flex items-center justify-center w-6 h-6 rounded-full bg-brand-blue text-white">
+                      <ThumbsUp className="w-3 h-3" fill="currentColor" strokeWidth={2} />
+                    </span>
+                    <span className="font-display font-black text-sm text-ink">+1.2k</span>
+                  </motion.div>
                 </motion.div>
               </Reveal>
             </div>

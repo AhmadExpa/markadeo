@@ -16,6 +16,16 @@ const Work = lazy(() => import('./searchsolver/pages/Work'));
 const About = lazy(() => import('./searchsolver/pages/About'));
 const Contact = lazy(() => import('./searchsolver/pages/Contact'));
 
+// Full-height placeholder shown while a route chunk loads, so the footer
+// never jumps up under the header during navigation.
+function PageFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-canvas">
+      <span className="w-10 h-10 rounded-full border-4 border-zinc-200 border-t-brand-yellow animate-spin" />
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -25,7 +35,7 @@ export default function App() {
           <Route
             path="/services"
             element={
-              <Suspense fallback={null}>
+              <Suspense fallback={<PageFallback />}>
                 <ServicesPage />
               </Suspense>
             }
@@ -33,7 +43,7 @@ export default function App() {
           <Route
             path="/web-app-design"
             element={
-              <Suspense fallback={null}>
+              <Suspense fallback={<PageFallback />}>
                 <WebAppDesign />
               </Suspense>
             }
@@ -41,7 +51,7 @@ export default function App() {
           <Route
             path="/work"
             element={
-              <Suspense fallback={null}>
+              <Suspense fallback={<PageFallback />}>
                 <Work />
               </Suspense>
             }
@@ -49,7 +59,7 @@ export default function App() {
           <Route
             path="/about"
             element={
-              <Suspense fallback={null}>
+              <Suspense fallback={<PageFallback />}>
                 <About />
               </Suspense>
             }
@@ -57,7 +67,7 @@ export default function App() {
           <Route
             path="/contact"
             element={
-              <Suspense fallback={null}>
+              <Suspense fallback={<PageFallback />}>
                 <Contact />
               </Suspense>
             }
